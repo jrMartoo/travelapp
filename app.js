@@ -10,7 +10,6 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // ==================== CONNECT TO MONGODB ====================
-// ✅ CHANGED THIS LINE TO USE RAILWAY ENVIRONMENT VARIABLE
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/travel_platform')
     .then(() => console.log('✅ Connected to MongoDB'))
     .catch(err => console.log('❌ MongoDB error:', err));
@@ -212,7 +211,7 @@ app.get('/api/bookings/:id', async (req, res) => {
     }
 });
 
-// ==================== PACKAGES ENDPOINT ====================
+// ==================== PACKAGES ENDPOINT WITH STABLE IMAGES ====================
 app.get('/api/packages', (req, res) => {
     const packages = [
         { 
@@ -222,7 +221,7 @@ app.get('/api/packages', (req, res) => {
             duration: 4, 
             description: 'Witness the great wildebeest migration',
             destination: 'Masai Mara, Kenya',
-            image: 'https://picsum.photos/400/300?random=1'
+            image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg'
         },
         { 
             _id: '2', 
@@ -231,7 +230,7 @@ app.get('/api/packages', (req, res) => {
             duration: 5, 
             description: 'Relax on pristine white sandy beaches',
             destination: 'Diani, Kenya',
-            image: 'https://picsum.photos/400/300?random=2'
+            image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg'
         },
         { 
             _id: '3', 
@@ -240,7 +239,7 @@ app.get('/api/packages', (req, res) => {
             duration: 6, 
             description: 'Conquer the second highest mountain in Africa',
             destination: 'Mount Kenya',
-            image: 'https://picsum.photos/400/300?random=3'
+            image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg'
         },
         { 
             _id: '4', 
@@ -249,7 +248,7 @@ app.get('/api/packages', (req, res) => {
             duration: 3, 
             description: 'Explore rich Swahili culture and historic architecture',
             destination: 'Lamu, Kenya',
-            image: 'https://picsum.photos/400/300?random=4'
+            image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg'
         }
     ];
     res.json({
@@ -259,7 +258,7 @@ app.get('/api/packages', (req, res) => {
     });
 });
 
-// ==================== START SERVER WITH NETWORK ACCESS ====================
+// ==================== START SERVER ====================
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 
