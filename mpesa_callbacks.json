@@ -1,0 +1,39 @@
+{
+  "timestamp": "2026-03-18T09:08:31.407Z",
+  "data": {
+    "Body": {
+      "stkCallback": {
+        "MerchantRequestID": "5133-4dec-bc6c-cd4283ac931c167344",
+        "CheckoutRequestID": "ws_CO_18032026120830209708374149",
+        "ResultCode": 1037,
+        "ResultDesc": "DS timeout user cannot be reached."
+      }
+    }
+  }
+},
+{
+  "timestamp": "2026-03-18T09:09:46.808Z",
+  "data": {
+    "Body": {
+      "stkCallback": {
+        "MerchantRequestID": "b694-4309-b5d5-07e6161a76f734483",
+        "CheckoutRequestID": "ws_CO_18032026120945360708374149",
+        "ResultCode": 1037,
+        "ResultDesc": "DS timeout user cannot be reached."
+      }
+    }
+  }
+},
+{
+  "timestamp": "2026-03-18T10:12:26.384Z",
+  "data": {
+    "Body": {
+      "stkCallback": {
+        "MerchantRequestID": "b694-4309-b5d5-07e6161a76f738589",
+        "CheckoutRequestID": "ws_CO_18032026131214930708374149",
+        "ResultCode": 1032,
+        "ResultDesc": "Request Cancelled by user."
+      }
+    }
+  }
+}

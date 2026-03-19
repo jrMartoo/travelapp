@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test M-Pesa</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 400px; margin: auto; }
+        input, button { padding: 10px; margin: 5px 0; width: 100%; }
+        button { background: green; color: white; border: none; cursor: pointer; }
+        .result { margin-top: 20px; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h2>Test M-Pesa Payment</h2>
+    <form id="paymentForm">
+        <input type="text" id="phone" placeholder="Phone (254...)" value="254708374149" required>
+        <input type="number" id="amount" placeholder="Amount" value="1" required>
+        <input type="text" id="name" placeholder="Your Name" value="Test User" required>
+        <input type="email" id="email" placeholder="Email" value="test@email.com" required>
+        <input type="text" id="packageId" placeholder="Paste Package ID Here" value="65d1a2b3c4e5f6a7b8c9d0e1" required>
+        <input type="number" id="travelers" placeholder="Travelers" value="1" required>
+        <input type="date" id="travelDate" required>
+        <button type="submit">Pay with M-Pesa</button>
+    </form>
+    <div class="result" id="result"></div>
+
+    <script>
+        document.getElementById('paymentForm').onsubmit = async (e) => {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Processing...';
+            
+            const data = {
+                phone: document.getElementById('phone').value,
+                amount: parseInt(document.getElementById('amount').value),
+                packageId: document.getElementById('packageId').value,
+                travelers: parseInt(document.getElementById('travelers').value),
+                travelDate: document.getElementById('travelDate').value,
+                user: {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value
+                }
+            };
+            
+            try {
+                const response = await fetch('/api/mpesa/pay', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                resultDiv.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = 'Error: ' + error.message;
+            }
+        };
+        
+        // Set today's date as default
+        document.getElementById('travelDate').valueAsDate = new Date();
+    </script>
+</body>
+</html>
