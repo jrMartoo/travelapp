@@ -10,7 +10,8 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // ==================== CONNECT TO MONGODB ====================
-mongoose.connect('mongodb://localhost:27017/travel_platform')
+// ✅ CHANGED THIS LINE TO USE RAILWAY ENVIRONMENT VARIABLE
+mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/travel_platform')
     .then(() => console.log('✅ Connected to MongoDB'))
     .catch(err => console.log('❌ MongoDB error:', err));
 
@@ -259,56 +260,14 @@ app.get('/api/packages', (req, res) => {
 });
 
 // ==================== START SERVER WITH NETWORK ACCESS ====================
-const PORT = 3000;
-const HOST = '0.0.0.0'; // This allows connections from other devices
+const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0';
 
 app.listen(PORT, HOST, () => {
-    // Get network interfaces to display your IP
-    const { networkInterfaces } = require('os');
-    const nets = networkInterfaces();
-    const results = {};
-    
-    // Find your local network IP
-    for (const name of Object.keys(nets)) {
-        for (const net of nets[name]) {
-            // Skip internal and non-IPv4 addresses
-            if (net.family === 'IPv4' && !net.internal) {
-                if (!results[name]) {
-                    results[name] = [];
-                }
-                results[name].push(net.address);
-            }
-        }
-    }
-    
-    console.log('\n' + '='.repeat(50));
-    console.log(`✅ SERVER STARTED SUCCESSFULLY`);
-    console.log('='.repeat(50));
-    console.log(`📌 Access URLs:`);
-    console.log(`   - Local: http://localhost:${PORT}`);
-    console.log(`   - Local: http://127.0.0.1:${PORT}`);
-    
-    // Display all network IPs found
-    if (Object.keys(results).length > 0) {
-        console.log(`\n🌐 Network Access (for other devices):`);
-        for (const [iface, ips] of Object.entries(results)) {
-            ips.forEach(ip => {
-                console.log(`   - http://${ip}:${PORT}`);
-                console.log(`   - http://${ip}:${PORT}/index.html`);
-            });
-        }
-        console.log(`\n📱 On your phone or other laptop, use one of the URLs above`);
-        console.log(`⚠️  Make sure all devices are on the same WiFi network`);
-        console.log(`⚠️  Windows Firewall must allow port ${PORT} (TCP)`);
-    } else {
-        console.log(`\n❌ No network IP found. Check your network connection.`);
-    }
-    
-    console.log('\n' + '-'.repeat(50));
+    console.log(`\n✅ Server running on port ${PORT}`);
     console.log(`📁 Test endpoints:`);
-    console.log(`   - Test API: http://localhost:${PORT}/api/test`);
-    console.log(`   - Test Token: http://localhost:${PORT}/api/test-token`);
-    console.log(`   - Packages: http://localhost:${PORT}/api/packages`);
-    console.log(`   - Bookings: http://localhost:${PORT}/api/bookings`);
-    console.log('='.repeat(50) + '\n');
+    console.log(`   - Test API: /api/test`);
+    console.log(`   - Test Token: /api/test-token`);
+    console.log(`   - Packages: /api/packages`);
+    console.log(`   - Bookings: /api/bookings`);
 });
