@@ -92,17 +92,25 @@ app.get('/api/auth/me', authMiddleware, async (req, res) => {
 });
 
 // ==================== PACKAGES ====================
+// ==================== PACKAGES ====================
 app.get('/api/packages', (req, res) => {
     const packages = [
         { _id: '1', title: 'Masai Mara Safari', price: 45000, duration: 4, description: 'Witness the great wildebeest migration', destination: 'Masai Mara, Kenya', image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg' },
         { _id: '2', title: 'Diani Beach Escape', price: 35000, duration: 5, description: 'Relax on pristine white sandy beaches', destination: 'Diani, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' },
         { _id: '3', title: 'Mount Kenya Climb', price: 55000, duration: 6, description: 'Conquer the second highest mountain', destination: 'Mount Kenya', image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg' },
-        { _id: '4', title: 'Lamu Cultural Tour', price: 40000, duration: 3, description: 'Explore Swahili culture', destination: 'Lamu, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
-        { _id: '5', title: 'Amboseli Elephant Safari', price: 48000, duration: 4, description: 'See elephants with Kilimanjaro backdrop', destination: 'Amboseli, Kenya', image: 'https://images.pexels.com/photos/1734025/pexels-photo-1734025.jpeg' },
-        { _id: '6', title: 'Tsavo National Park', price: 42000, duration: 5, description: 'Explore Kenya\'s largest national park', destination: 'Tsavo, Kenya', image: 'https://images.pexels.com/photos/16012294/pexels-photo-16012294.jpeg' }
+        { _id: '4', title: 'Lamu Cultural Tour', price: 40000, duration: 3, description: 'Explore Swahili culture and historic architecture', destination: 'Lamu, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
+        { _id: '5', title: 'Amboseli Elephant Safari', price: 48000, duration: 4, description: 'See elephants with Mount Kilimanjaro backdrop', destination: 'Amboseli, Kenya', image: 'https://images.pexels.com/photos/1734025/pexels-photo-1734025.jpeg' },
+        { _id: '6', title: 'Tsavo National Park', price: 42000, duration: 5, description: 'Explore Kenya\'s largest national park', destination: 'Tsavo, Kenya', image: 'https://images.pexels.com/photos/16012294/pexels-photo-16012294.jpeg' },
+        { _id: '7', title: 'Watamu Beach Resort', price: 38000, duration: 5, description: 'Relax at Kenya\'s coastal paradise', destination: 'Watamu, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' },
+        { _id: '8', title: 'Lake Nakuru Safari', price: 38000, duration: 3, description: 'See flamingos and rhinos', destination: 'Lake Nakuru, Kenya', image: 'https://images.pexels.com/photos/1734025/pexels-photo-1734025.jpeg' },
+        { _id: '9', title: 'Samburu Wildlife Adventure', price: 52000, duration: 5, description: 'Discover rare northern species', destination: 'Samburu, Kenya', image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg' },
+        { _id: '10', title: 'Hell\'s Gate Adventure', price: 28000, duration: 2, description: 'Bike and hike in this unique park', destination: 'Hell\'s Gate, Kenya', image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg' },
+        { _id: '11', title: 'Nairobi City Tour', price: 15000, duration: 1, description: 'Explore Kenya\'s vibrant capital', destination: 'Nairobi, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
+        { _id: '12', title: 'Kilifi Creek Experience', price: 32000, duration: 4, description: 'Relax by the peaceful Kilifi Creek', destination: 'Kilifi, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' }
     ];
     res.json({ success: true, count: packages.length, data: packages });
 });
+
 
 // ==================== VISA ENDPOINTS ====================
 app.get('/api/visa/countries', (req, res) => {

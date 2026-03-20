@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafiriPesa - Kenya Travel</title>
     <style>
         * {
@@ -19,15 +19,12 @@
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 1rem;
+            padding: 1rem 2rem;
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .navbar h1 {
@@ -36,23 +33,54 @@
         
         .nav-links {
             display: flex;
+            gap: 1rem;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 0.5rem;
         }
         
         .nav-links a {
             color: white;
             text-decoration: none;
-            font-weight: 500;
             padding: 0.5rem 1rem;
             border-radius: 5px;
             transition: background 0.3s;
-            font-size: 0.9rem;
         }
         
         .nav-links a:hover {
             background: rgba(255,255,255,0.2);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-login, .btn-signup, .btn-logout {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-login {
+            background: white;
+            color: #667eea;
+        }
+        
+        .btn-signup {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-logout {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .user-name {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
         }
         
         .hero {
@@ -65,7 +93,6 @@
             justify-content: center;
             color: white;
             text-align: center;
-            padding: 1rem;
         }
         
         .hero-content h1 {
@@ -73,15 +100,10 @@
             margin-bottom: 0.5rem;
         }
         
-        .hero-content p {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-        
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: 2rem;
         }
         
         .section-title {
@@ -89,7 +111,6 @@
             margin: 2rem 0;
             font-size: 1.8rem;
             color: #333;
-            position: relative;
         }
         
         .section-title:after {
@@ -103,21 +124,9 @@
         
         .packages-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 2rem;
-        }
-        
-        @media (min-width: 600px) {
-            .packages-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 900px) {
-            .packages-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
         }
         
         .package-card {
@@ -125,19 +134,17 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s;
         }
         
         .package-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
         }
         
         .package-image {
-            height: 180px;
+            height: 160px;
             background-size: cover;
             background-position: center;
-            background-color: #f0f0f0;
         }
         
         .package-content {
@@ -145,37 +152,15 @@
         }
         
         .package-title {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 0.3rem;
-            color: #333;
-        }
-        
-        .package-destination {
-            color: #666;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
         }
         
         .package-price {
-            font-size: 1.5rem;
-            color: #2c3e50;
+            font-size: 1.3rem;
+            color: #27ae60;
             font-weight: bold;
             margin: 0.5rem 0;
-        }
-        
-        .package-price small {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            font-weight: normal;
-        }
-        
-        .package-duration {
-            background: #f8f9fa;
-            padding: 0.3rem 0.5rem;
-            border-radius: 5px;
-            display: inline-block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
         }
         
         .btn-book {
@@ -185,24 +170,8 @@
             padding: 0.8rem;
             width: 100%;
             border-radius: 5px;
-            font-size: 1rem;
-            font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .btn-book:hover {
-            background: #219a52;
-        }
-        
-        .mpesa-badge {
-            display: inline-block;
-            background: #4CAF50;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 0.3rem;
+            font-weight: bold;
         }
         
         .modal {
@@ -216,7 +185,6 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
         }
         
         .modal.active {
@@ -225,235 +193,98 @@
         
         .modal-content {
             background: white;
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 10px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-width: 400px;
+            width: 90%;
         }
         
         .modal-content h2 {
             margin-bottom: 1rem;
-            color: #333;
-            font-size: 1.3rem;
-        }
-        
-        .form-group {
-            margin-bottom: 0.8rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.3rem;
-            color: #555;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        .total-amount {
-            background: #f8f9fa;
-            padding: 0.8rem;
-            border-radius: 5px;
-            margin: 0.8rem 0;
-            font-size: 1.1rem;
             text-align: center;
         }
         
-        .btn-submit {
+        .modal-content input {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .modal-content button {
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1rem;
             background: #27ae60;
             color: white;
             border: none;
-            padding: 1rem;
-            width: 100%;
             border-radius: 5px;
-            font-size: 1rem;
+            cursor: pointer;
             font-weight: bold;
+        }
+        
+        .switch-auth {
+            text-align: center;
+            margin-top: 1rem;
+            color: #667eea;
             cursor: pointer;
         }
         
-        .btn-close {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 0.8rem;
-            width: 100%;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 0.8rem;
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
         }
         
-        .result-box {
-            background: #f0f0f0;
-            padding: 0.8rem;
+        .dashboard {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            text-align: center;
             border-radius: 5px;
-            margin: 0.8rem 0;
-            font-size: 0.9rem;
-            max-height: 150px;
-            overflow-y: auto;
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #27ae60;
         }
         
         .visa-section, .contacts-section {
             background: white;
-            padding: 2rem 1rem;
+            padding: 1.5rem;
+            border-radius: 10px;
             margin: 2rem 0;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        .contacts-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        @media (min-width: 600px) {
-            .contacts-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 900px) {
-            .contacts-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        
-        .contact-card {
-            text-align: center;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        
-        .contact-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .contact-card h3 {
-            color: #333;
-            margin-bottom: 0.3rem;
-            font-size: 1.1rem;
-        }
-        
-        .contact-card .phone {
-            font-size: 1rem;
-            color: #27ae60;
-            font-weight: bold;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 1.5rem 0;
-        }
-        
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 1.2rem;
-        }
-        
-        .contact-form {
-            margin-top: 2rem;
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-        }
-        
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        .contact-form textarea {
-            height: 80px;
-        }
-        
-        .contact-form button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 1rem;
-            width: 100%;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .map-container {
-            margin-top: 1.5rem;
-            border-radius: 10px;
-            overflow: hidden;
-            height: 200px;
-        }
-        
-        .map-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
         
         .footer {
             background: #2c3e50;
             color: white;
             text-align: center;
-            padding: 1.5rem;
+            padding: 2rem;
             margin-top: 2rem;
         }
         
-        .footer .social-links {
-            margin: 1rem 0;
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
         }
-        
-        .footer .social-link {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .footer p {
-            font-size: 0.9rem;
-            margin: 0.3rem 0;
-        }
-        
-        input, select, button {
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        
-        select {
-            background: white;
-            cursor: pointer;
-        }
-        
-        .status-approved { background: #27ae60; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; }
-        .status-rejected { background: #e74c3c; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; }
-        .status-processing { background: #f39c12; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; }
-        .status-pending { background: #3498db; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; }
     </style>
 </head>
 <body>
@@ -462,9 +293,17 @@
         <div class="nav-links">
             <a href="#home">Home</a>
             <a href="#packages">Packages</a>
-            <a href="#bookings">Bookings</a>
+            <a href="#dashboard">Dashboard</a>
             <a href="#visa">Visa</a>
             <a href="#contact">Contact</a>
+        </div>
+        <div class="auth-buttons" id="authButtons">
+            <button class="btn-login" onclick="openLoginModal()">Login</button>
+            <button class="btn-signup" onclick="openSignupModal()">Sign Up</button>
+        </div>
+        <div id="userInfo" style="display: none;">
+            <span class="user-name" id="userName"></span>
+            <button class="btn-logout" onclick="logout()">Logout</button>
         </div>
     </nav>
     
@@ -472,362 +311,334 @@
         <div class="hero-content">
             <h1>Discover Kenya</h1>
             <p>Experience the magic of Africa with our curated travel packages</p>
-            <p style="font-size: 0.9rem;">🇰🇪 Safari · Beaches · Mountains · Culture</p>
         </div>
     </section>
     
     <div class="container">
         <h2 class="section-title" id="packages">Popular Travel Packages</h2>
         <div class="packages-grid" id="packages-container">
-            <div style="text-align: center; grid-column: 1/-1;">Loading packages...</div>
+            <div style="text-align: center;">Loading packages...</div>
         </div>
         
-        <h2 class="section-title" id="bookings">Your Bookings</h2>
-        <div id="bookings-container" style="background: white; padding: 1rem; border-radius: 10px;">
-            <button onclick="loadMyBookings()" style="background: #3498db; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-bottom: 1rem; width: 100%;">
-                🔄 Refresh My Bookings
-            </button>
-            <div id="bookings-list">Click refresh to see your bookings</div>
+        <h2 class="section-title" id="dashboard">My Dashboard</h2>
+        <div class="dashboard" id="dashboardContainer">
+            <div style="text-align: center;">Login to see your dashboard</div>
         </div>
         
-        <!-- ==================== VISA ASSISTANCE SECTION ==================== -->
-        <h2 class="section-title" id="visa">🛂 Visa & Passport Assistance</h2>
-        
+        <h2 class="section-title" id="visa">Visa Assistance</h2>
         <div class="visa-section">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Your Nationality</label>
-                    <select id="nationality" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
-                        <option value="KENYA">🇰🇪 Kenya</option>
-                        <option value="UAE">🇦🇪 UAE</option>
-                        <option value="UK">🇬🇧 United Kingdom</option>
-                        <option value="USA">🇺🇸 United States</option>
+                    <label>Your Nationality</label>
+                    <select id="nationality" style="width:100%; padding:0.8rem;">
+                        <option value="KENYA">Kenya</option>
                     </select>
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Destination Country</label>
-                    <select id="destination" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
-                        <option value="UAE">🇦🇪 UAE</option>
-                        <option value="UK">🇬🇧 United Kingdom</option>
-                        <option value="USA">🇺🇸 United States</option>
-                        <option value="KENYA">🇰🇪 Kenya</option>
-                        <option value="THAILAND">🇹🇭 Thailand</option>
+                    <label>Destination</label>
+                    <select id="destination" style="width:100%; padding:0.8rem;">
+                        <option value="UAE">UAE</option>
+                        <option value="UK">UK</option>
+                        <option value="USA">USA</option>
+                        <option value="KENYA">Kenya</option>
+                        <option value="THAILAND">Thailand</option>
                     </select>
                 </div>
             </div>
-            
-            <button onclick="checkVisaRequirements()" style="background: #3498db; color: white; border: none; padding: 1rem; width: 100%; border-radius: 5px; font-size: 1rem; cursor: pointer; margin-bottom: 2rem;">
-                🔍 Check Visa Requirements
-            </button>
-            
-            <div id="visaRequirements" style="display: none; background: #f8f9fa; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
-                <h3 style="margin-bottom: 1rem;">📋 Visa Requirements</h3>
-                <div id="requirementsContent"></div>
-            </div>
-            
-            <div style="border-top: 2px solid #f0f0f0; padding-top: 2rem;">
-                <h3 style="margin-bottom: 1.5rem;">✍️ Apply for Visa Assistance</h3>
-                <form id="visaForm" onsubmit="submitVisaApplication(event)">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                        <div><label>Full Name</label><input type="text" id="visaFullName" required style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:5px;"></div>
-                        <div><label>Passport Number</label><input type="text" id="passportNumber" required style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:5px;"></div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                        <div><label>Date of Birth</label><input type="date" id="dateOfBirth" required style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:5px;"></div>
-                        <div><label>Passport Expiry</label><input type="date" id="passportExpiry" required style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:5px;"></div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                        <div><label>Email</label><input type="email" id="visaEmail" required style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:5px;"></div>
-                        <div><label>Phone</label><input type="tel" id="visaPhone" value="254708374149" required style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:5px;"></div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                        <div><label>Travel Date</label><input type="date" id="visaTravelDate" required style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:5px;"></div>
-                        <div><label>Duration (days)</label><input type="number" id="duration" min="1" max="90" required style="width:100%; padding:0.8rem; border:1px solid #ddd; border-radius:5px;"></div>
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-                        <div><label>Purpose</label><select id="travelPurpose" style="width:100%; padding:0.8rem;"><option value="tourism">Tourism</option><option value="business">Business</option></select></div>
-                        <div><label>Visa Type</label><select id="visaTypeSelect" style="width:100%; padding:0.8rem;"><option value="tourist">Tourist</option><option value="business">Business</option></select></div>
-                    </div>
-                    <div style="background: #e8f5e9; padding: 1rem; border-radius: 5px; margin: 1.5rem 0;">
-                        <p style="font-weight: bold;">💰 Service Fee: KES 2,500</p>
-                        <p style="color: #666; font-size: 0.9rem;">Visa fee not included (paid directly to embassy)</p>
-                    </div>
-                    <button type="submit" style="background: #27ae60; color: white; border: none; padding: 1rem; width: 100%; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer;">🚀 Start Visa Application</button>
-                </form>
-                <div id="visaResult" style="margin-top: 1rem; padding: 1rem; border-radius: 5px;"></div>
-            </div>
-            
-            <div style="margin-top: 2rem; border-top: 2px solid #f0f0f0; padding-top: 2rem;">
-                <h3 style="margin-bottom: 1rem;">🔍 Track Your Visa Application</h3>
-                <div style="display: flex; gap: 0.5rem;">
-                    <input type="text" id="trackingRef" placeholder="Enter Reference (e.g., VISA240001)" style="flex: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
-                    <button onclick="trackVisaApplication()" style="background: #3498db; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer;">Track</button>
-                </div>
-                <div id="trackingResult" style="margin-top: 1rem;"></div>
-            </div>
+            <button onclick="checkVisaRequirements()" style="margin-top:1rem; padding:0.8rem; width:100%; background:#3498db; color:white; border:none; border-radius:5px;">Check Requirements</button>
+            <div id="visaRequirements" style="margin-top:1rem;"></div>
         </div>
         
-        <!-- ==================== CONTACTS SECTION ==================== -->
-        <h2 class="section-title" id="contact">📞 Get In Touch</h2>
+        <h2 class="section-title" id="contact">Contact Us</h2>
         <div class="contacts-section">
-            <div class="contacts-grid">
-                <div class="contact-card"><div class="contact-icon">📞</div><h3>Call Us</h3><p class="phone">+254 794 209 525</p><p class="phone">+254 741 533 465</p><p class="phone">+254 708 374 149</p></div>
-                <div class="contact-card"><div class="contact-icon">✉️</div><h3>Email</h3><p>info@safiripesa.co.ke</p><p>bookings@safiripesa.co.ke</p><p>visa@safiripesa.co.ke</p></div>
-                <div class="contact-card"><div class="contact-icon">📍</div><h3>Office</h3><p>Kimathi Street</p><p>Nairobi, Kenya</p><p>3rd Floor, Suite 7</p></div>
-                <div class="contact-card"><div class="contact-icon">⏰</div><h3>Hours</h3><p>Mon-Fri: 8am-8pm</p><p>Sat: 9am-5pm</p><p>Sun: Closed</p></div>
+            <div style="text-align:center;">
+                <p>📞 +254 794 209 525 | +254 741 533 465 | +254 708 374 149</p>
+                <p>✉️ info@safiripesa.co.ke | bookings@safiripesa.co.ke</p>
+                <p>📍 Kimathi Street, Nairobi, Kenya</p>
             </div>
-            <div class="social-links"><a href="#" class="social-link">📘</a><a href="#" class="social-link">🐦</a><a href="#" class="social-link">📷</a><a href="#" class="social-link">💼</a><a href="#" class="social-link">▶️</a></div>
-            <div class="contact-form"><h3>Send Message</h3><form id="contactForm" onsubmit="handleContactSubmit(event)"><input type="text" placeholder="Your Name" required><input type="email" placeholder="Your Email" required><input type="text" placeholder="Subject" required><textarea placeholder="Your Message" required></textarea><button type="submit">Send</button></form><div id="contactResult"></div></div>
-            <div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8462962765316!2d36.821946!3d-1.286389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10d2b7f1d7f1%3A0x3b3c5d9c4f3b9f0!2sNairobi%20CBD!5e0!3m2!1sen!2ske!4v1620000000000!5m2!1sen!2ske" allowfullscreen="" loading="lazy"></iframe></div>
+        </div>
+    </div>
+    
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>Login</h2>
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <div id="loginError" class="error-msg"></div>
+            <button onclick="login()">Login</button>
+            <p class="switch-auth" onclick="closeModals(); openSignupModal()">Don't have an account? Sign up</p>
+        </div>
+    </div>
+    
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <h2>Sign Up</h2>
+            <input type="text" id="signupName" placeholder="Full Name" required>
+            <input type="email" id="signupEmail" placeholder="Email" required>
+            <input type="tel" id="signupPhone" placeholder="Phone (e.g., 254708374149)" required>
+            <input type="password" id="signupPassword" placeholder="Password" required>
+            <div id="signupError" class="error-msg"></div>
+            <button onclick="signup()">Sign Up</button>
+            <p class="switch-auth" onclick="closeModals(); openLoginModal()">Already have an account? Login</p>
         </div>
     </div>
     
     <!-- Booking Modal -->
     <div class="modal" id="bookingModal">
         <div class="modal-content">
-            <h2 id="modal-title">Book Your Safari</h2>
-            <form id="bookingForm">
-                <input type="hidden" id="packageId"><input type="hidden" id="packagePrice">
-                <div class="form-group"><label>Full Name</label><input type="text" id="name" value="Test User" required></div>
-                <div class="form-group"><label>Email</label><input type="email" id="email" value="test@email.com" required></div>
-                <div class="form-group"><label>Phone (254...)</label><input type="text" id="phone" value="254708374149" required></div>
-                <div class="form-group"><label>Travelers</label><input type="number" id="travelers" value="1" min="1" max="10" required></div>
-                <div class="form-group"><label>Travel Date</label><input type="date" id="travelDate" required></div>
-                <div class="total-amount" id="totalAmount">Total: KES 0</div>
-                <button type="submit" class="btn-submit" id="payButton">Pay with M-Pesa</button>
-                <div class="result-box" id="paymentResult"></div>
-                <button type="button" class="btn-close" onclick="closeModal()">Close</button>
-            </form>
+            <h2 id="bookingTitle">Book Your Safari</h2>
+            <input type="hidden" id="bookingPackageId">
+            <input type="hidden" id="bookingPrice">
+            <input type="number" id="travelers" placeholder="Number of Travelers" value="1" min="1">
+            <input type="date" id="travelDate">
+            <div id="totalAmount" style="font-weight:bold; margin:1rem 0;"></div>
+            <button onclick="processBooking()">Confirm Booking</button>
+            <button onclick="closeModals()" style="background:#e74c3c;">Cancel</button>
         </div>
     </div>
     
     <footer class="footer">
-        <div class="social-links"><a href="#" class="social-link">📘</a><a href="#" class="social-link">🐦</a><a href="#" class="social-link">📷</a><a href="#" class="social-link">💼</a><a href="#" class="social-link">▶️</a></div>
         <p>© 2026 SafiriPesa - Travel with M-Pesa</p>
-        <p>🇰🇪 Kenya's Premier Travel Platform</p>
-        <p>📞 +254 794 209 525 | +254 741 533 465 | +254 708 374 149</p>
-        <p>✉️ info@safiripesa.co.ke</p>
+        <p>Kenya's Premier Travel Platform</p>
     </footer>
     
     <script>
-        // ==================== PACKAGES ====================
+        const API_URL = 'https://travel-app-production-3893.up.railway.app';
+        let currentUser = null;
+        let authToken = null;
+        
+        // Check if user is logged in from localStorage
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            if (token && user) {
+                authToken = token;
+                currentUser = JSON.parse(user);
+                showLoggedInUI();
+                loadDashboard();
+            }
+        }
+        
+        function showLoggedInUI() {
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'flex';
+            document.getElementById('userName').textContent = currentUser.fullName;
+        }
+        
+        function showLoggedOutUI() {
+            document.getElementById('authButtons').style.display = 'flex';
+            document.getElementById('userInfo').style.display = 'none';
+            document.getElementById('dashboardContainer').innerHTML = '<div style="text-align: center;">Login to see your dashboard</div>';
+        }
+        
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        function openSignupModal() {
+            document.getElementById('signupModal').classList.add('active');
+        }
+        
+        function closeModals() {
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+            document.getElementById('loginError').innerHTML = '';
+            document.getElementById('signupError').innerHTML = '';
+        }
+        
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const res = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    authToken = data.token;
+                    currentUser = data.user;
+                    showLoggedInUI();
+                    closeModals();
+                    loadDashboard();
+                    loadPackages();
+                } else {
+                    document.getElementById('loginError').innerHTML = data.error;
+                }
+            } catch (error) {
+                document.getElementById('loginError').innerHTML = 'Network error';
+            }
+        }
+        
+        async function signup() {
+            const fullName = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const phone = document.getElementById('signupPhone').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            try {
+                const res = await fetch(`${API_URL}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, phone, password })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    authToken = data.token;
+                    currentUser = data.user;
+                    showLoggedInUI();
+                    closeModals();
+                    loadDashboard();
+                } else {
+                    document.getElementById('signupError').innerHTML = data.error;
+                }
+            } catch (error) {
+                document.getElementById('signupError').innerHTML = 'Network error';
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            authToken = null;
+            currentUser = null;
+            showLoggedOutUI();
+            loadPackages();
+        }
+        
+        async function loadDashboard() {
+            if (!authToken) return;
+            
+            try {
+                const res = await fetch(`${API_URL}/api/dashboard`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    document.getElementById('dashboardContainer').innerHTML = `
+                        <div class="dashboard-stats">
+                            <div class="stat-card"><div class="stat-number">${data.stats.totalBookings}</div><div>Bookings</div></div>
+                            <div class="stat-card"><div class="stat-number">${data.stats.totalVisas}</div><div>Visa Apps</div></div>
+                            <div class="stat-card"><div class="stat-number">KES ${data.stats.totalSpent.toLocaleString()}</div><div>Total Spent</div></div>
+                        </div>
+                        <h3>Recent Bookings</h3>
+                        ${data.recentBookings.length ? data.recentBookings.map(b => `<p>✅ ${b.packageName} - ${new Date(b.travelDate).toLocaleDateString()} - KES ${b.totalAmount}</p>`).join('') : '<p>No bookings yet</p>'}
+                    `;
+                }
+            } catch (error) {
+                console.error('Dashboard error:', error);
+            }
+        }
+        
         async function loadPackages() {
             try {
-                const res = await fetch('/api/packages');
+                const res = await fetch(`${API_URL}/api/packages`);
                 const data = await res.json();
-                if (data.success) displayPackages(data.data);
-            } catch(e) { console.error(e); }
+                if (data.success) {
+                    const container = document.getElementById('packages-container');
+                    container.innerHTML = data.data.map(pkg => `
+                        <div class="package-card">
+                            <div class="package-image" style="background-image: url('${pkg.image}');"></div>
+                            <div class="package-content">
+                                <h3 class="package-title">${pkg.title}</h3>
+                                <p>${pkg.description}</p>
+                                <div class="package-price">KES ${pkg.price.toLocaleString()}<small>/person</small></div>
+                                <button class="btn-book" onclick="openBookingModal('${pkg._id}', '${pkg.title}', ${pkg.price})">Book Now</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading packages:', error);
+            }
         }
         
-        function displayPackages(packages) {
-            const container = document.getElementById('packages-container');
-            if (!packages || packages.length === 0) { container.innerHTML = '<p>No packages</p>'; return; }
-            container.innerHTML = packages.map(pkg => `
-                <div class="package-card">
-                    <div class="package-image" style="background-image: url('${pkg.image}');"></div>
-                    <div class="package-content">
-                        <h3 class="package-title">${pkg.title}</h3>
-                        <p class="package-destination">📍 ${pkg.destination || 'Kenya'}</p>
-                        <p style="font-size:0.9rem;">${pkg.description || 'Experience Kenya'}</p>
-                        <div class="package-duration">🕒 ${pkg.duration || 4} days</div>
-                        <div class="package-price">KES ${pkg.price?.toLocaleString() || '0'}<small>/person</small></div>
-                        <button class="btn-book" onclick="openBookingModal('${pkg._id}', '${pkg.title}', ${pkg.price})">Book Now</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        loadPackages();
-        
-        // ==================== BOOKING ====================
-        function openBookingModal(id, title, price) {
-            document.getElementById('packageId').value = id;
-            document.getElementById('modal-title').textContent = `Book ${title}`;
-            document.getElementById('packagePrice').value = price;
+        function openBookingModal(packageId, title, price) {
+            if (!authToken) {
+                alert('Please login to book');
+                openLoginModal();
+                return;
+            }
+            document.getElementById('bookingPackageId').value = packageId;
+            document.getElementById('bookingTitle').innerHTML = `Book ${title}`;
+            document.getElementById('bookingPrice').value = price;
+            document.getElementById('travelDate').valueAsDate = new Date();
             updateTotal();
             document.getElementById('bookingModal').classList.add('active');
         }
         
-        function closeModal() { document.getElementById('bookingModal').classList.remove('active'); document.getElementById('paymentResult').innerHTML = ''; }
-        
         function updateTotal() {
-            const price = parseFloat(document.getElementById('packagePrice').value) || 0;
-            const travelers = parseInt(document.getElementById('travelers').value) || 1;
-            document.getElementById('totalAmount').innerHTML = `Total: KES ${(price * travelers).toLocaleString()}`;
+            const price = parseFloat(document.getElementById('bookingPrice').value);
+            const travelers = parseInt(document.getElementById('travelers').value);
+            const total = price * travelers;
+            document.getElementById('totalAmount').innerHTML = `Total: KES ${total.toLocaleString()}`;
         }
         
         document.getElementById('travelers').addEventListener('input', updateTotal);
-        document.getElementById('travelDate').valueAsDate = new Date();
         
-        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('payButton');
-            const result = document.getElementById('paymentResult');
-            btn.disabled = true; btn.textContent = 'Processing...'; result.innerHTML = '⏳ Sending...';
-            const data = {
-                phone: document.getElementById('phone').value,
-                amount: parseFloat(document.getElementById('packagePrice').value) * parseInt(document.getElementById('travelers').value),
-                packageId: document.getElementById('packageId').value,
-                packageName: document.getElementById('modal-title').textContent.replace('Book ', ''),
-                travelers: parseInt(document.getElementById('travelers').value),
-                travelDate: document.getElementById('travelDate').value
-            };
+        async function processBooking() {
+            const packageId = document.getElementById('bookingPackageId').value;
+            const packageName = document.getElementById('bookingTitle').innerHTML.replace('Book ', '');
+            const price = parseFloat(document.getElementById('bookingPrice').value);
+            const travelers = parseInt(document.getElementById('travelers').value);
+            const travelDate = document.getElementById('travelDate').value;
+            
             try {
-                const res = await fetch('/api/mpesa/stkpush', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                const json = await res.json();
-                if (json.success) result.innerHTML = `✅ STK Push sent! Booking ID: ${json.bookingId}`;
-                else result.innerHTML = `❌ Error: ${json.error}`;
-            } catch(err) { result.innerHTML = `❌ Error: ${err.message}`; }
-            btn.disabled = false; btn.textContent = 'Pay with M-Pesa';
-        });
-        
-        async function loadMyBookings() {
-            const container = document.getElementById('bookings-list');
-            container.innerHTML = 'Loading...';
-            try {
-                const response = await fetch('https://travel-app-production-3893.up.railway.app/api/packages');
+                const res = await fetch(`${API_URL}/api/bookings`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ packageId, packageName, price, travelers, travelDate })
+                });
                 const data = await res.json();
-                if (data.success && data.data.length > 0) {
-                    container.innerHTML = data.data.map(b => `
-                        <div style="border:1px solid #ddd; padding:0.8rem; margin-bottom:0.5rem; border-radius:5px;">
-                            <strong>${b.packageName}</strong><br>📅 ${new Date(b.travelDate).toLocaleDateString()} | 👥 ${b.travelers} | 💰 KES ${b.amount?.toLocaleString()}<br>
-                            <span style="background:${b.paymentStatus === 'paid' ? '#27ae60' : '#f39c12'}; color:white; padding:0.2rem 0.5rem; border-radius:20px;">${b.paymentStatus}</span>
-                        </div>
-                    `).join('');
-                } else container.innerHTML = 'No bookings found.';
-            } catch(e) { container.innerHTML = 'Error loading bookings'; }
+                if (data.success) {
+                    alert('Booking created! Please complete M-Pesa payment.');
+                    closeModals();
+                    loadDashboard();
+                } else {
+                    alert('Error: ' + data.error);
+                }
+            } catch (error) {
+                alert('Network error');
+            }
         }
         
-        // ==================== VISA FUNCTIONS ====================
         async function checkVisaRequirements() {
             const dest = document.getElementById('destination').value;
             try {
-                const res = await fetch(`/api/visa/requirements/${dest}`);
+                const res = await fetch(`${API_URL}/api/visa/requirements/${dest}`);
                 const data = await res.json();
                 if (data.success) {
-                    const reqs = data.requirements;
-                    document.getElementById('requirementsContent').innerHTML = `
-                        <p><strong>Processing Time:</strong> ${reqs.processingTime}</p>
-                        <p><strong>Fee:</strong> KES ${reqs.fee}</p>
-                        <p><strong>Documents:</strong></p>
-                        <ul>${reqs.documents.map(d => `<li>${d}</li>`).join('')}</ul>
-                    `;
-                    document.getElementById('visaRequirements').style.display = 'block';
-                }
-            } catch(e) { console.error(e); }
-        }
-        
-        async function submitVisaApplication(e) {
-            e.preventDefault();
-            const resultDiv = document.getElementById('visaResult');
-            resultDiv.innerHTML = '⏳ Processing...';
-            const data = {
-                fullName: document.getElementById('visaFullName').value,
-                passportNumber: document.getElementById('passportNumber').value,
-                nationality: document.getElementById('nationality').value,
-                dateOfBirth: document.getElementById('dateOfBirth').value,
-                email: document.getElementById('visaEmail').value,
-                phone: document.getElementById('visaPhone').value,
-                passportExpiryDate: document.getElementById('passportExpiry').value,
-                destinationCountry: document.getElementById('destination').value,
-                travelPurpose: document.getElementById('travelPurpose').value,
-                intendedTravelDate: document.getElementById('visaTravelDate').value,
-                durationOfStay: parseInt(document.getElementById('duration').value),
-                visaType: document.getElementById('visaTypeSelect').value,
-                passportIssueDate: new Date().toISOString().split('T')[0],
-                passportIssueCountry: 'Kenya'
-            };
-            try {
-                const res = await fetch('/api/visa', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                const json = await res.json();
-                if (json.success) {
-                    resultDiv.innerHTML = `<div style="background:#d4edda; color:#155724; padding:1rem; border-radius:5px;">✅ Application created! Reference: ${json.applicationReference}</div>`;
-                    document.getElementById('visaForm').reset();
-                } else {
-                    resultDiv.innerHTML = `<div style="background:#f8d7da; color:#721c24; padding:1rem;">❌ Error: ${json.error}</div>`;
-                }
-                       } catch(error) {
-                resultDiv.innerHTML = `<div style="background:#f8d7da; color:#721c24; padding:1rem;">❌ Error: ${error.message}</div>`;
-            }
-        }
-        
-        async function trackVisaApplication() {
-            const ref = document.getElementById('trackingRef').value;
-            const resultDiv = document.getElementById('trackingResult');
-            
-            if (!ref) {
-                resultDiv.innerHTML = '<p style="color:#e74c3c;">Please enter a reference number</p>';
-                return;
-            }
-            
-            resultDiv.innerHTML = '⏳ Searching...';
-            
-            try {
-                const res = await fetch(`/api/visa/track/${ref}`);
-                const json = await res.json();
-                
-                if (json.success) {
-                    const statusColors = {
-                        'draft': '#f39c12',
-                        'documents_uploaded': '#3498db',
-                        'submitted': '#3498db',
-                        'processing': '#f39c12',
-                        'approved': '#27ae60',
-                        'rejected': '#e74c3c'
-                    };
-                    
-                    resultDiv.innerHTML = `
+                    document.getElementById('visaRequirements').innerHTML = `
                         <div style="background:#f8f9fa; padding:1rem; border-radius:5px;">
-                            <p><strong>Reference:</strong> ${json.applicationReference}</p>
-                            <p><strong>Name:</strong> ${json.fullName}</p>
-                            <p><strong>Destination:</strong> ${json.destinationCountry}</p>
-                            <p><strong>Passport:</strong> ${json.passportNumber}</p>
-                            <p><strong>Status:</strong> 
-                                <span style="background:${statusColors[json.status]}; color:white; padding:0.3rem 0.8rem; border-radius:20px;">
-                                    ${json.statusMessage}
-                                </span>
-                            </p>
-                            <p><strong>Submitted:</strong> ${json.submissionDate ? new Date(json.submissionDate).toLocaleDateString() : 'Not yet'}</p>
-                            <p><strong>Last Updated:</strong> ${new Date(json.lastUpdated).toLocaleDateString()}</p>
+                            <h3>Requirements for ${dest}</h3>
+                            <p><strong>Processing:</strong> ${data.requirements.processingTime}</p>
+                            <p><strong>Fee:</strong> KES ${data.requirements.fee}</p>
+                            <p><strong>Documents:</strong></p>
+                            <ul>${data.requirements.documents.map(d => `<li>${d}</li>`).join('')}</ul>
                         </div>
                     `;
-                } else {
-                    resultDiv.innerHTML = `<p style="color:#e74c3c;">❌ ${json.error}</p>`;
                 }
-            } catch(error) {
-                resultDiv.innerHTML = `<p style="color:#e74c3c;">❌ Error: ${error.message}</p>`;
+            } catch (error) {
+                console.error('Error:', error);
             }
         }
         
-        function handleContactSubmit(event) {
-            event.preventDefault();
-            const resultDiv = document.getElementById('contactResult');
-            resultDiv.innerHTML = '✅ Message sent! We\'ll get back to you soon.';
-            resultDiv.style.color = '#27ae60';
-            event.target.reset();
-            setTimeout(() => { resultDiv.innerHTML = ''; }, 5000);
-        }
-        
-        // Set default travel date
-        const today = new Date();
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        if(document.getElementById('visaTravelDate')) {
-            document.getElementById('visaTravelDate').valueAsDate = tomorrow;
-        }
-        if(document.getElementById('travelDate')) {
-            document.getElementById('travelDate').valueAsDate = tomorrow;
-        }
-        
-        // Update destination field when selected
-        document.getElementById('destination').addEventListener('change', function() {
-            document.getElementById('visaDestination').value = this.value;
-        });
-        
-        // Update nationality field when selected
-        document.getElementById('nationality').addEventListener('change', function() {
-            document.getElementById('visaNationality').value = this.value;
-        });
+        // Initialize
+        checkAuth();
+        loadPackages();
     </script>
 </body>
 </html>
