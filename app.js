@@ -20,11 +20,8 @@ app.use(express.static(__dirname));
 // JWT Secret
 const JWT_SECRET = 'your_super_secret_jwt_key_change_this';
 
-// ==================== MONGODB CONNECTION (RAILWAY FIX) ====================
-const MONGODB_URI = process.env.MONGO_URL || 
-                     (process.env.MONGOHOST ? 
-                     `mongodb://${process.env.MONGOUSER}:${process.env.MONGOPASSWORD}@${process.env.MONGOHOST}:${process.env.MONGOPORT}/travel_platform?authSource=admin` : 
-                     'mongodb://localhost:27017/travel_platform');
+// ==================== MONGODB CONNECTION ====================
+const MONGODB_URI = process.env.MONGO_URL || 'mongodb://localhost:27017/travel_platform';
 
 console.log('📡 Attempting MongoDB connection...');
 mongoose.connect(MONGODB_URI, {
@@ -91,26 +88,156 @@ app.get('/api/auth/me', authMiddleware, async (req, res) => {
     res.json({ success: true, user: req.user });
 });
 
-// ==================== PACKAGES ====================
-// ==================== PACKAGES ====================
+// ==================== PACKAGES (12 Packages with Updated Images) ====================
 app.get('/api/packages', (req, res) => {
     const packages = [
-        { _id: '1', title: 'Masai Mara Safari', price: 45000, duration: 4, description: 'Witness the great wildebeest migration', destination: 'Masai Mara, Kenya', image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg' },
-        { _id: '2', title: 'Diani Beach Escape', price: 35000, duration: 5, description: 'Relax on pristine white sandy beaches', destination: 'Diani, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' },
-        { _id: '3', title: 'Mount Kenya Climb', price: 55000, duration: 6, description: 'Conquer the second highest mountain', destination: 'Mount Kenya', image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg' },
-        { _id: '4', title: 'Lamu Cultural Tour', price: 40000, duration: 3, description: 'Explore Swahili culture and historic architecture', destination: 'Lamu, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
-        { _id: '5', title: 'Amboseli Elephant Safari', price: 48000, duration: 4, description: 'See elephants with Mount Kilimanjaro backdrop', destination: 'Amboseli, Kenya', image: 'https://images.pexels.com/photos/1734025/pexels-photo-1734025.jpeg' },
-        { _id: '6', title: 'Tsavo National Park', price: 42000, duration: 5, description: 'Explore Kenya\'s largest national park', destination: 'Tsavo, Kenya', image: 'https://images.pexels.com/photos/16012294/pexels-photo-16012294.jpeg' },
-        { _id: '7', title: 'Watamu Beach Resort', price: 38000, duration: 5, description: 'Relax at Kenya\'s coastal paradise', destination: 'Watamu, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' },
-        { _id: '8', title: 'Lake Nakuru Safari', price: 38000, duration: 3, description: 'See flamingos and rhinos', destination: 'Lake Nakuru, Kenya', image: 'https://images.pexels.com/photos/1734025/pexels-photo-1734025.jpeg' },
-        { _id: '9', title: 'Samburu Wildlife Adventure', price: 52000, duration: 5, description: 'Discover rare northern species', destination: 'Samburu, Kenya', image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg' },
-        { _id: '10', title: 'Hell\'s Gate Adventure', price: 28000, duration: 2, description: 'Bike and hike in this unique park', destination: 'Hell\'s Gate, Kenya', image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg' },
-        { _id: '11', title: 'Nairobi City Tour', price: 15000, duration: 1, description: 'Explore Kenya\'s vibrant capital', destination: 'Nairobi, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
-        { _id: '12', title: 'Kilifi Creek Experience', price: 32000, duration: 4, description: 'Relax by the peaceful Kilifi Creek', destination: 'Kilifi, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' }
+        { 
+            _id: '1', 
+            title: 'Masai Mara Safari', 
+            price: 45000, 
+            duration: 4, 
+            description: 'Witness the great wildebeest migration', 
+            destination: 'Masai Mara, Kenya', 
+            image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2022/09/maasai-mara-8-750x450.jpg' 
+        },
+        { 
+            _id: '2', 
+            title: 'Diani Beach Escape', 
+            price: 35000, 
+            duration: 5, 
+            description: 'Relax on pristine white sandy beaches', 
+            destination: 'Diani, Kenya', 
+            image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/280240380.webp?k=99cb13d977315adf39a039d754fb52cbe93327f1b433dd8ebe62e7922acbffe8&o=' 
+        },
+        { 
+            _id: '3', 
+            title: 'Mount Kenya Climb', 
+            price: 55000, 
+            duration: 6, 
+            description: 'Conquer the second highest mountain', 
+            destination: 'Mount Kenya', 
+            image: 'https://afar.brightspotcdn.com/dims4/default/87c3bbe/2147483647/strip/true/crop/728x500+36+0/resize/660x453!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2F52%2F27%2F75e5a780203adc8e148104996ede%2Foriginal-925782c19d188263e00bf14985b940b2.jpg' 
+        },
+        { 
+            _id: '4', 
+            title: 'Lamu Cultural Tour', 
+            price: 40000, 
+            duration: 3, 
+            description: 'Explore Swahili culture and historic architecture', 
+            destination: 'Lamu, Kenya', 
+            image: 'https://www.tsavonationalparkkenya.com/wp-content/uploads/2024/02/lamu-island-featured.webp' 
+        },
+        { 
+            _id: '5', 
+            title: 'Amboseli Elephant Safari', 
+            price: 48000, 
+            duration: 4, 
+            description: 'See elephants with Mount Kilimanjaro backdrop', 
+            destination: 'Amboseli, Kenya', 
+            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/African_Bush_Elephant.jpg/250px-African_Bush_Elephant.jpg' 
+        },
+        { 
+            _id: '6', 
+            title: 'Tsavo National Park', 
+            price: 42000, 
+            duration: 5, 
+            description: 'Explore Kenya\'s largest national park', 
+            destination: 'Tsavo, Kenya', 
+            image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2020/02/a-tsavo-west-national-park-1.jpg' 
+        },
+        { 
+            _id: '7', 
+            title: 'Watamu Beach Resort', 
+            price: 38000, 
+            duration: 5, 
+            description: 'Relax at Kenya\'s coastal paradise', 
+            destination: 'Watamu, Kenya', 
+            image: 'https://ajkenyasafaris.com/wp-content/uploads/2023/05/watamu-beaches-bg1.webp' 
+        },
+        { 
+            _id: '8', 
+            title: 'Lake Nakuru Safari', 
+            price: 38000, 
+            duration: 3, 
+            description: 'See flamingos and rhinos', 
+            destination: 'Lake Nakuru, Kenya', 
+            image: 'https://www.lakenakurukenya.com/wp-content/uploads/2020/08/Flamingos-in-Lake-Nakuru-National-Park.jpg' 
+        },
+        { 
+            _id: '9', 
+            title: 'Samburu Wildlife Adventure', 
+            price: 52000, 
+            duration: 5, 
+            description: 'Discover rare northern species', 
+            destination: 'Samburu, Kenya', 
+            image: 'https://masaiafricasafaris.com/wp-content/uploads/2021/03/Samburu-tour-1024x529.jpg' 
+        },
+        { 
+            _id: '10', 
+            title: 'Hell\'s Gate Adventure', 
+            price: 28000, 
+            duration: 2, 
+            description: 'Bike and hike in this unique park', 
+            destination: 'Hell\'s Gate, Kenya', 
+            image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2019/09/Hell%E2%80%99s-Gate-National-Park.jpg' 
+        },
+        { 
+            _id: '11', 
+            title: 'Nairobi City Tour', 
+            price: 15000, 
+            duration: 1, 
+            description: 'Explore Kenya\'s vibrant capital', 
+            destination: 'Nairobi, Kenya', 
+            image: 'https://images.trvl-media.com/place/178290/2eb789d7-20a3-45da-9fab-790a820f2cd3.jpg' 
+        },
+        { 
+            _id: '12', 
+            title: 'Kilifi Creek Experience', 
+            price: 32000, 
+            duration: 4, 
+            description: 'Relax by the peaceful Kilifi Creek', 
+            destination: 'Kilifi, Kenya', 
+            image: 'https://afar.brightspotcdn.com/dims4/default/0534973/2147483647/strip/false/crop/1024x715+0+0/resize/1024x715!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2Fa6%2Fce%2F85066e25105c5fea1015e7f31fe1%2Foriginal-dbbc0934669cc20ce4785385b4599a5b.jpg' 
+        }
     ];
     res.json({ success: true, count: packages.length, data: packages });
 });
 
+// ==================== BOOKINGS ====================
+app.post('/api/bookings', authMiddleware, async (req, res) => {
+    try {
+        const { packageId, packageName, price, travelers, travelDate } = req.body;
+        const totalAmount = price * travelers;
+        
+        const booking = new Booking({
+            user: req.user._id,
+            packageId,
+            packageName,
+            price,
+            travelers,
+            totalAmount,
+            travelDate,
+            paymentStatus: 'pending'
+        });
+        
+        await booking.save();
+        req.user.bookings.push(booking._id);
+        await req.user.save();
+        
+        res.json({ success: true, booking });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.get('/api/bookings', authMiddleware, async (req, res) => {
+    try {
+        const bookings = await Booking.find({ user: req.user._id }).sort({ createdAt: -1 });
+        res.json({ success: true, data: bookings });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
 
 // ==================== VISA ENDPOINTS ====================
 app.get('/api/visa/countries', (req, res) => {
@@ -137,22 +264,81 @@ app.post('/api/visa', authMiddleware, async (req, res) => {
     }
 });
 
-app.get('/api/visa/track/:reference', async (req, res) => {
+app.get('/api/visa', authMiddleware, async (req, res) => {
     try {
-        const visa = await Visa.findOne({ applicationReference: req.params.reference.toUpperCase() });
-        if (!visa) return res.status(404).json({ success: false, error: 'Application not found' });
-        const statusMsg = { draft: 'Not submitted', submitted: 'Submitted', processing: 'Processing', approved: 'Approved!', rejected: 'Rejected' };
-        res.json({ success: true, applicationReference: visa.applicationReference, fullName: visa.fullName, destinationCountry: visa.destinationCountry, status: visa.visaStatus, statusMessage: statusMsg[visa.visaStatus], lastUpdated: visa.updatedAt });
+        const visas = await Visa.find({ user: req.user._id }).sort({ createdAt: -1 });
+        res.json({ success: true, data: visas });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
 });
 
-// ==================== TEST ====================
+app.get('/api/visa/track/:reference', async (req, res) => {
+    try {
+        const visa = await Visa.findOne({ applicationReference: req.params.reference.toUpperCase() });
+        if (!visa) return res.status(404).json({ success: false, error: 'Application not found' });
+        
+        const statusMessages = {
+            draft: 'Not submitted yet',
+            submitted: 'Submitted to embassy',
+            processing: 'Being processed',
+            approved: 'Visa approved!',
+            rejected: 'Application rejected'
+        };
+        
+        res.json({
+            success: true,
+            applicationReference: visa.applicationReference,
+            fullName: visa.fullName,
+            destinationCountry: visa.destinationCountry,
+            status: visa.visaStatus,
+            statusMessage: statusMessages[visa.visaStatus] || visa.visaStatus,
+            submissionDate: visa.submissionDate,
+            lastUpdated: visa.updatedAt
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ==================== DASHBOARD ====================
+app.get('/api/dashboard', authMiddleware, async (req, res) => {
+    try {
+        const bookings = await Booking.find({ user: req.user._id }).sort({ createdAt: -1 }).limit(5);
+        const visas = await Visa.find({ user: req.user._id }).sort({ createdAt: -1 }).limit(5);
+        
+        const totalSpent = await Booking.aggregate([
+            { $match: { user: req.user._id, paymentStatus: 'paid' } },
+            { $group: { _id: null, total: { $sum: '$totalAmount' } } }
+        ]);
+        
+        res.json({
+            success: true,
+            user: {
+                fullName: req.user.fullName,
+                email: req.user.email,
+                phone: req.user.phone,
+                memberSince: req.user.createdAt
+            },
+            stats: {
+                totalBookings: await Booking.countDocuments({ user: req.user._id }),
+                totalVisas: await Visa.countDocuments({ user: req.user._id }),
+                totalSpent: totalSpent[0]?.total || 0
+            },
+            recentBookings: bookings,
+            recentVisas: visas
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ==================== TEST ENDPOINT ====================
 app.get('/api/test', (req, res) => {
     res.json({ message: 'API is working', timestamp: new Date() });
 });
 
+// ==================== SERVE INDEX.HTML ====================
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -163,4 +349,6 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n✅ Server running on http://localhost:${PORT}`);
     console.log(`🌍 Public: https://travel-app-production-3893.up.railway.app`);
     console.log(`📁 Auth: POST /api/auth/register, POST /api/auth/login`);
+    console.log(`📦 Packages: GET /api/packages (12 packages)`);
+    console.log(`🛂 Visa: GET /api/visa/countries, GET /api/visa/requirements/:country`);
 });

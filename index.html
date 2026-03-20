@@ -5,286 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafiriPesa - Kenya Travel</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-        }
-        
-        .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .navbar h1 {
-            font-size: 1.5rem;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .auth-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .btn-login, .btn-signup, .btn-logout {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .btn-login {
-            background: white;
-            color: #667eea;
-        }
-        
-        .btn-signup {
-            background: #27ae60;
-            color: white;
-        }
-        
-        .btn-logout {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        .user-name {
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-        }
-        
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=600');
-            height: 300px;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-        }
-        
-        .hero-content h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin: 2rem 0;
-            font-size: 1.8rem;
-            color: #333;
-        }
-        
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0.5rem auto;
-        }
-        
-        .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .package-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .package-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .package-image {
-            height: 160px;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .package-content {
-            padding: 1rem;
-        }
-        
-        .package-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
-        }
-        
-        .package-price {
-            font-size: 1.3rem;
-            color: #27ae60;
-            font-weight: bold;
-            margin: 0.5rem 0;
-        }
-        
-        .btn-book {
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 0.8rem;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 400px;
-            width: 90%;
-        }
-        
-        .modal-content h2 {
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .modal-content input {
-            width: 100%;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        
-        .modal-content button {
-            width: 100%;
-            padding: 0.8rem;
-            margin-top: 1rem;
-            background: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .switch-auth {
-            text-align: center;
-            margin-top: 1rem;
-            color: #667eea;
-            cursor: pointer;
-        }
-        
-        .error-msg {
-            color: #e74c3c;
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-        }
-        
-        .dashboard {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-        }
-        
-        .dashboard-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        
-        .stat-card {
-            background: #f8f9fa;
-            padding: 1rem;
-            text-align: center;
-            border-radius: 5px;
-        }
-        
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #27ae60;
-        }
-        
-        .visa-section, .contacts-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-        }
-        
-        .footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-        
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
+        /* Keep all your existing styles here */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .navbar h1 { font-size: 1.5rem; }
+        .nav-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .nav-links a { color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 5px; transition: background 0.3s; }
+        .nav-links a:hover { background: rgba(255,255,255,0.2); }
+        .auth-buttons { display: flex; gap: 0.5rem; }
+        .btn-login, .btn-signup, .btn-logout { padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-login { background: white; color: #667eea; }
+        .btn-signup { background: #27ae60; color: white; }
+        .btn-logout { background: #e74c3c; color: white; }
+        .user-name { background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 5px; }
+        .hero { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=600'); height: 300px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+        .hero-content h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .section-title { text-align: center; margin: 2rem 0; font-size: 1.8rem; color: #333; }
+        .section-title:after { content: ''; display: block; width: 50px; height: 3px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0.5rem auto; }
+        .packages-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .package-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .package-card:hover { transform: translateY(-5px); }
+        .package-image { height: 160px; background-size: cover; background-position: center; }
+        .package-content { padding: 1rem; }
+        .package-title { font-size: 1.2rem; margin-bottom: 0.3rem; }
+        .package-price { font-size: 1.3rem; color: #27ae60; font-weight: bold; margin: 0.5rem 0; }
+        .btn-book { background: #27ae60; color: white; border: none; padding: 0.8rem; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 90%; }
+        .modal-content h2 { margin-bottom: 1rem; text-align: center; }
+        .modal-content input, .modal-content select { width: 100%; padding: 0.8rem; margin: 0.5rem 0; border: 1px solid #ddd; border-radius: 5px; }
+        .modal-content button { width: 100%; padding: 0.8rem; margin-top: 1rem; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .switch-auth { text-align: center; margin-top: 1rem; color: #667eea; cursor: pointer; }
+        .error-msg { color: #e74c3c; font-size: 0.8rem; margin-top: 0.5rem; }
+        .dashboard { background: white; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; }
+        .dashboard-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .stat-card { background: #f8f9fa; padding: 1rem; text-align: center; border-radius: 5px; }
+        .stat-number { font-size: 1.8rem; font-weight: bold; color: #27ae60; }
+        .visa-section, .contacts-section { background: white; padding: 1.5rem; border-radius: 10px; margin: 2rem 0; }
+        .footer { background: #2c3e50; color: white; text-align: center; padding: 2rem; margin-top: 2rem; }
+        @media (max-width: 768px) { .navbar { flex-direction: column; text-align: center; } }
     </style>
 </head>
 <body>
@@ -325,28 +87,99 @@
             <div style="text-align: center;">Login to see your dashboard</div>
         </div>
         
-        <h2 class="section-title" id="visa">Visa Assistance</h2>
+        <!-- ==================== VISA SECTION WITH 20+ COUNTRIES ==================== -->
+        <h2 class="section-title" id="visa">🛂 Visa Assistance - 20+ Countries</h2>
         <div class="visa-section">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div>
-                    <label>Your Nationality</label>
+                    <label style="font-weight: bold;">Your Nationality</label>
                     <select id="nationality" style="width:100%; padding:0.8rem;">
-                        <option value="KENYA">Kenya</option>
+                        <option value="KENYA">🇰🇪 Kenya</option>
+                        <option value="UAE">🇦🇪 UAE</option>
+                        <option value="UK">🇬🇧 United Kingdom</option>
+                        <option value="USA">🇺🇸 United States</option>
+                        <option value="INDIA">🇮🇳 India</option>
+                        <option value="CHINA">🇨🇳 China</option>
+                        <option value="JAPAN">🇯🇵 Japan</option>
+                        <option value="SOUTH AFRICA">🇿🇦 South Africa</option>
+                        <option value="NIGERIA">🇳🇬 Nigeria</option>
+                        <option value="GHANA">🇬🇭 Ghana</option>
+                        <option value="ETHIOPIA">🇪🇹 Ethiopia</option>
+                        <option value="TANZANIA">🇹🇿 Tanzania</option>
+                        <option value="UGANDA">🇺🇬 Uganda</option>
+                        <option value="RWANDA">🇷🇼 Rwanda</option>
+                        <option value="GERMANY">🇩🇪 Germany</option>
+                        <option value="FRANCE">🇫🇷 France</option>
+                        <option value="ITALY">🇮🇹 Italy</option>
+                        <option value="SPAIN">🇪🇸 Spain</option>
+                        <option value="CANADA">🇨🇦 Canada</option>
+                        <option value="AUSTRALIA">🇦🇺 Australia</option>
+                        <option value="BRAZIL">🇧🇷 Brazil</option>
+                        <option value="MEXICO">🇲🇽 Mexico</option>
+                        <option value="THAILAND">🇹🇭 Thailand</option>
+                        <option value="SINGAPORE">🇸🇬 Singapore</option>
+                        <option value="MALAYSIA">🇲🇾 Malaysia</option>
+                        <option value="EGYPT">🇪🇬 Egypt</option>
+                        <option value="MOROCCO">🇲🇦 Morocco</option>
+                        <option value="TURKEY">🇹🇷 Turkey</option>
+                        <option value="RUSSIA">🇷🇺 Russia</option>
                     </select>
                 </div>
                 <div>
-                    <label>Destination</label>
+                    <label style="font-weight: bold;">Destination Country</label>
                     <select id="destination" style="width:100%; padding:0.8rem;">
-                        <option value="UAE">UAE</option>
-                        <option value="UK">UK</option>
-                        <option value="USA">USA</option>
-                        <option value="KENYA">Kenya</option>
-                        <option value="THAILAND">Thailand</option>
+                        <option value="UAE">🇦🇪 UAE - Dubai, Abu Dhabi</option>
+                        <option value="UK">🇬🇧 United Kingdom - London, Manchester</option>
+                        <option value="USA">🇺🇸 United States - New York, LA, Chicago</option>
+                        <option value="KENYA">🇰🇪 Kenya - Nairobi, Mombasa</option>
+                        <option value="THAILAND">🇹🇭 Thailand - Bangkok, Phuket</option>
+                        <option value="CHINA">🇨🇳 China - Beijing, Shanghai</option>
+                        <option value="JAPAN">🇯🇵 Japan - Tokyo, Osaka</option>
+                        <option value="SOUTH AFRICA">🇿🇦 South Africa - Cape Town, Johannesburg</option>
+                        <option value="INDIA">🇮🇳 India - Mumbai, Delhi</option>
+                        <option value="SINGAPORE">🇸🇬 Singapore</option>
+                        <option value="MALAYSIA">🇲🇾 Malaysia - Kuala Lumpur</option>
+                        <option value="EGYPT">🇪🇬 Egypt - Cairo, Luxor</option>
+                        <option value="TURKEY">🇹🇷 Turkey - Istanbul, Cappadocia</option>
+                        <option value="GERMANY">🇩🇪 Germany - Berlin, Munich</option>
+                        <option value="FRANCE">🇫🇷 France - Paris, Nice</option>
+                        <option value="ITALY">🇮🇹 Italy - Rome, Venice</option>
+                        <option value="SPAIN">🇪🇸 Spain - Barcelona, Madrid</option>
+                        <option value="CANADA">🇨🇦 Canada - Toronto, Vancouver</option>
+                        <option value="AUSTRALIA">🇦🇺 Australia - Sydney, Melbourne</option>
+                        <option value="BRAZIL">🇧🇷 Brazil - Rio de Janeiro</option>
+                        <option value="MOROCCO">🇲🇦 Morocco - Casablanca, Marrakech</option>
+                        <option value="SWITZERLAND">🇨🇭 Switzerland - Zurich, Geneva</option>
+                        <option value="NETHERLANDS">🇳🇱 Netherlands - Amsterdam</option>
+                        <option value="BELGIUM">🇧🇪 Belgium - Brussels</option>
+                        <option value="SWEDEN">🇸🇪 Sweden - Stockholm</option>
+                        <option value="NORWAY">🇳🇴 Norway - Oslo</option>
+                        <option value="DENMARK">🇩🇰 Denmark - Copenhagen</option>
+                        <option value="FINLAND">🇫🇮 Finland - Helsinki</option>
+                        <option value="IRELAND">🇮🇪 Ireland - Dublin</option>
+                        <option value="PORTUGAL">🇵🇹 Portugal - Lisbon</option>
+                        <option value="GREECE">🇬🇷 Greece - Athens, Santorini</option>
+                        <option value="NEW ZEALAND">🇳🇿 New Zealand - Auckland</option>
+                        <option value="ARGENTINA">🇦🇷 Argentina - Buenos Aires</option>
+                        <option value="PERU">🇵🇪 Peru - Lima, Machu Picchu</option>
+                        <option value="COLOMBIA">🇨🇴 Colombia - Bogota</option>
+                        <option value="VIETNAM">🇻🇳 Vietnam - Hanoi, Ho Chi Minh</option>
+                        <option value="INDONESIA">🇮🇩 Indonesia - Bali, Jakarta</option>
+                        <option value="PHILIPPINES">🇵🇭 Philippines - Manila, Cebu</option>
+                        <option value="PAKISTAN">🇵🇰 Pakistan - Islamabad, Karachi</option>
+                        <option value="BANGLADESH">🇧🇩 Bangladesh - Dhaka</option>
+                        <option value="SRI LANKA">🇱🇰 Sri Lanka - Colombo</option>
+                        <option value="NEPAL">🇳🇵 Nepal - Kathmandu</option>
                     </select>
                 </div>
             </div>
-            <button onclick="checkVisaRequirements()" style="margin-top:1rem; padding:0.8rem; width:100%; background:#3498db; color:white; border:none; border-radius:5px;">Check Requirements</button>
+            <button onclick="checkVisaRequirements()" style="margin-top:1rem; padding:0.8rem; width:100%; background:#3498db; color:white; border:none; border-radius:5px; cursor:pointer;">🔍 Check Visa Requirements</button>
             <div id="visaRequirements" style="margin-top:1rem;"></div>
+            
+            <div style="margin-top: 2rem; border-top: 1px solid #ddd; padding-top: 1rem;">
+                <h3>Apply for Visa Assistance</h3>
+                <button onclick="alert('Please login to apply for visa')" style="margin-top:0.5rem; padding:0.8rem; width:100%; background:#27ae60; color:white; border:none; border-radius:5px; cursor:pointer;">Apply Now</button>
+            </div>
         </div>
         
         <h2 class="section-title" id="contact">Contact Us</h2>
@@ -355,6 +188,7 @@
                 <p>📞 +254 794 209 525 | +254 741 533 465 | +254 708 374 149</p>
                 <p>✉️ info@safiripesa.co.ke | bookings@safiripesa.co.ke</p>
                 <p>📍 Kimathi Street, Nairobi, Kenya</p>
+                <p>🕒 Mon-Fri: 8am-8pm | Sat: 9am-5pm | Sun: Closed</p>
             </div>
         </div>
     </div>
@@ -401,7 +235,7 @@
     
     <footer class="footer">
         <p>© 2026 SafiriPesa - Travel with M-Pesa</p>
-        <p>Kenya's Premier Travel Platform</p>
+        <p>Kenya's Premier Travel Platform | Visa Assistance for 40+ Countries</p>
     </footer>
     
     <script>
@@ -409,7 +243,6 @@
         let currentUser = null;
         let authToken = null;
         
-        // Check if user is logged in from localStorage
         function checkAuth() {
             const token = localStorage.getItem('token');
             const user = localStorage.getItem('user');
@@ -433,24 +266,13 @@
             document.getElementById('dashboardContainer').innerHTML = '<div style="text-align: center;">Login to see your dashboard</div>';
         }
         
-        function openLoginModal() {
-            document.getElementById('loginModal').classList.add('active');
-        }
-        
-        function openSignupModal() {
-            document.getElementById('signupModal').classList.add('active');
-        }
-        
-        function closeModals() {
-            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-            document.getElementById('loginError').innerHTML = '';
-            document.getElementById('signupError').innerHTML = '';
-        }
+        function openLoginModal() { document.getElementById('loginModal').classList.add('active'); }
+        function openSignupModal() { document.getElementById('signupModal').classList.add('active'); }
+        function closeModals() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
         
         async function login() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
-            
             try {
                 const res = await fetch(`${API_URL}/api/auth/login`, {
                     method: 'POST',
@@ -458,7 +280,6 @@
                     body: JSON.stringify({ email, password })
                 });
                 const data = await res.json();
-                
                 if (data.success) {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
@@ -467,7 +288,6 @@
                     showLoggedInUI();
                     closeModals();
                     loadDashboard();
-                    loadPackages();
                 } else {
                     document.getElementById('loginError').innerHTML = data.error;
                 }
@@ -481,7 +301,6 @@
             const email = document.getElementById('signupEmail').value;
             const phone = document.getElementById('signupPhone').value;
             const password = document.getElementById('signupPassword').value;
-            
             try {
                 const res = await fetch(`${API_URL}/api/auth/register`, {
                     method: 'POST',
@@ -489,7 +308,6 @@
                     body: JSON.stringify({ fullName, email, phone, password })
                 });
                 const data = await res.json();
-                
                 if (data.success) {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
@@ -512,18 +330,15 @@
             authToken = null;
             currentUser = null;
             showLoggedOutUI();
-            loadPackages();
         }
         
         async function loadDashboard() {
             if (!authToken) return;
-            
             try {
                 const res = await fetch(`${API_URL}/api/dashboard`, {
                     headers: { 'Authorization': `Bearer ${authToken}` }
                 });
                 const data = await res.json();
-                
                 if (data.success) {
                     document.getElementById('dashboardContainer').innerHTML = `
                         <div class="dashboard-stats">
@@ -535,9 +350,7 @@
                         ${data.recentBookings.length ? data.recentBookings.map(b => `<p>✅ ${b.packageName} - ${new Date(b.travelDate).toLocaleDateString()} - KES ${b.totalAmount}</p>`).join('') : '<p>No bookings yet</p>'}
                     `;
                 }
-            } catch (error) {
-                console.error('Dashboard error:', error);
-            }
+            } catch (error) { console.error(error); }
         }
         
         async function loadPackages() {
@@ -545,8 +358,7 @@
                 const res = await fetch(`${API_URL}/api/packages`);
                 const data = await res.json();
                 if (data.success) {
-                    const container = document.getElementById('packages-container');
-                    container.innerHTML = data.data.map(pkg => `
+                    document.getElementById('packages-container').innerHTML = data.data.map(pkg => `
                         <div class="package-card">
                             <div class="package-image" style="background-image: url('${pkg.image}');"></div>
                             <div class="package-content">
@@ -558,17 +370,11 @@
                         </div>
                     `).join('');
                 }
-            } catch (error) {
-                console.error('Error loading packages:', error);
-            }
+            } catch (error) { console.error(error); }
         }
         
         function openBookingModal(packageId, title, price) {
-            if (!authToken) {
-                alert('Please login to book');
-                openLoginModal();
-                return;
-            }
+            if (!authToken) { alert('Please login to book'); openLoginModal(); return; }
             document.getElementById('bookingPackageId').value = packageId;
             document.getElementById('bookingTitle').innerHTML = `Book ${title}`;
             document.getElementById('bookingPrice').value = price;
@@ -580,8 +386,7 @@
         function updateTotal() {
             const price = parseFloat(document.getElementById('bookingPrice').value);
             const travelers = parseInt(document.getElementById('travelers').value);
-            const total = price * travelers;
-            document.getElementById('totalAmount').innerHTML = `Total: KES ${total.toLocaleString()}`;
+            document.getElementById('totalAmount').innerHTML = `Total: KES ${(price * travelers).toLocaleString()}`;
         }
         
         document.getElementById('travelers').addEventListener('input', updateTotal);
@@ -592,27 +397,16 @@
             const price = parseFloat(document.getElementById('bookingPrice').value);
             const travelers = parseInt(document.getElementById('travelers').value);
             const travelDate = document.getElementById('travelDate').value;
-            
             try {
                 const res = await fetch(`${API_URL}/api/bookings`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authToken}`
-                    },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
                     body: JSON.stringify({ packageId, packageName, price, travelers, travelDate })
                 });
                 const data = await res.json();
-                if (data.success) {
-                    alert('Booking created! Please complete M-Pesa payment.');
-                    closeModals();
-                    loadDashboard();
-                } else {
-                    alert('Error: ' + data.error);
-                }
-            } catch (error) {
-                alert('Network error');
-            }
+                if (data.success) { alert('Booking created! Please complete M-Pesa payment.'); closeModals(); loadDashboard(); }
+                else alert('Error: ' + data.error);
+            } catch (error) { alert('Network error'); }
         }
         
         async function checkVisaRequirements() {
@@ -623,20 +417,18 @@
                 if (data.success) {
                     document.getElementById('visaRequirements').innerHTML = `
                         <div style="background:#f8f9fa; padding:1rem; border-radius:5px;">
-                            <h3>Requirements for ${dest}</h3>
-                            <p><strong>Processing:</strong> ${data.requirements.processingTime}</p>
-                            <p><strong>Fee:</strong> KES ${data.requirements.fee}</p>
-                            <p><strong>Documents:</strong></p>
-                            <ul>${data.requirements.documents.map(d => `<li>${d}</li>`).join('')}</ul>
+                            <h3>📋 Requirements for ${dest}</h3>
+                            <p><strong>Processing Time:</strong> ${data.requirements.processingTime}</p>
+                            <p><strong>Visa Fee:</strong> KES ${data.requirements.fee}</p>
+                            <p><strong>Required Documents:</strong></p>
+                            <ul>${data.requirements.documents.map(d => `<li>📄 ${d}</li>`).join('')}</ul>
+                            <p><strong>Visa Types:</strong> ${data.requirements.visaTypes.join(', ')}</p>
                         </div>
                     `;
                 }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            } catch (error) { console.error(error); }
         }
         
-        // Initialize
         checkAuth();
         loadPackages();
     </script>
