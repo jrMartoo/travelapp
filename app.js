@@ -22,12 +22,42 @@ app.use(express.static(__dirname));
 // JWT Secret
 const JWT_SECRET = 'your_super_secret_jwt_key_change_this';
 
+
 // ==================== M-PESA CREDENTIALS ====================
 const consumerKey = '20Xyp3T8p7VQXWjJj8WRvJdM2HYMU0PIX73Zn5GpNhYwnhiT';
 const consumerSecret = 'DQfRcj0E5uO27f9DECtQYSVNFkQN1wnW4oKTgTrtAvdPJhVJ4QPN3pFGEwBaxUvl';
 const businessShortCode = '174379';
 const passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
 const CALLBACK_URL = 'https://travel-app-production-3893.up.railway.app/api/mpesa/callback';
+
+
+// ==================== MONGODB CONNECTION ====================
+const MONGODB_URI = process.env.MONGO_URL || 'mongodb://localhost:27017/travel_platform';
+
+console.log('📡 Attempting MongoDB connection...');
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000,
+    socketTimeoutMS: 45000
+})
+.then(() => console.log('✅ Connected to MongoDB'))
+.catch(err => console.log('❌ MongoDB error:', err.message));
+
+// ==================== AUTH MIDDLEWARE ====================
+const authMiddleware = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) return res.status(401).json({ success: false, error: 'No token' });
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await User.findById(decoded.userId).select('-password');
+        if (!user) return res.status(401).json({ success: false, error: 'User not found' });
+        req.user = user;
+        next();
+    } catch (error) {
+        res.status(401).json({ success: false, error: 'Invalid token' });
+    }
+};
 
 // ==================== M-PESA FUNCTIONS ====================
 const getAccessToken = async () => {
@@ -78,34 +108,6 @@ const stkPush = async (phoneNumber, amount, accountNumber) => {
     }
 };
 
-// ==================== MONGODB CONNECTION ====================
-const MONGODB_URI = process.env.MONGO_URL || 'mongodb://localhost:27017/travel_platform';
-
-console.log('📡 Attempting MongoDB connection...');
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 30000,
-    socketTimeoutMS: 45000
-})
-.then(() => console.log('✅ Connected to MongoDB'))
-.catch(err => console.log('❌ MongoDB error:', err.message));
-
-// ==================== AUTH MIDDLEWARE ====================
-const authMiddleware = async (req, res, next) => {
-    try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) return res.status(401).json({ success: false, error: 'No token' });
-        const decoded = jwt.verify(token, JWT_SECRET);
-        const user = await User.findById(decoded.userId).select('-password');
-        if (!user) return res.status(401).json({ success: false, error: 'User not found' });
-        req.user = user;
-        next();
-    } catch (error) {
-        res.status(401).json({ success: false, error: 'Invalid token' });
-    }
-};
-
 // ==================== AUTH ENDPOINTS ====================
 app.post('/api/auth/register', async (req, res) => {
     try {
@@ -149,18 +151,18 @@ app.get('/api/auth/me', authMiddleware, async (req, res) => {
 // ==================== PACKAGES (12 Packages) ====================
 app.get('/api/packages', (req, res) => {
     const packages = [
-        { _id: '1', title: 'Masai Mara Safari', price: 45000, duration: 4, description: 'Witness the great wildebeest migration', destination: 'Masai Mara, Kenya', image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg' },
-        { _id: '2', title: 'Diani Beach Escape', price: 35000, duration: 5, description: 'Relax on pristine white sandy beaches', destination: 'Diani, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' },
-        { _id: '3', title: 'Mount Kenya Climb', price: 55000, duration: 6, description: 'Conquer the second highest mountain', destination: 'Mount Kenya', image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg' },
-        { _id: '4', title: 'Lamu Cultural Tour', price: 40000, duration: 3, description: 'Explore Swahili culture', destination: 'Lamu, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
-        { _id: '5', title: 'Amboseli Elephant Safari', price: 48000, duration: 4, description: 'Elephants with Kilimanjaro backdrop', destination: 'Amboseli, Kenya', image: 'https://images.pexels.com/photos/1734025/pexels-photo-1734025.jpeg' },
-        { _id: '6', title: 'Tsavo National Park', price: 42000, duration: 5, description: 'Kenya\'s largest national park', destination: 'Tsavo, Kenya', image: 'https://images.pexels.com/photos/16012294/pexels-photo-16012294.jpeg' },
-        { _id: '7', title: 'Watamu Beach Resort', price: 38000, duration: 5, description: 'Coastal paradise', destination: 'Watamu, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' },
-        { _id: '8', title: 'Lake Nakuru Safari', price: 38000, duration: 3, description: 'Flamingos and rhinos', destination: 'Lake Nakuru, Kenya', image: 'https://images.pexels.com/photos/16012294/pexels-photo-16012294.jpeg' },
-        { _id: '9', title: 'Samburu Adventure', price: 52000, duration: 5, description: 'Rare northern species', destination: 'Samburu, Kenya', image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg' },
-        { _id: '10', title: 'Hell\'s Gate Adventure', price: 28000, duration: 2, description: 'Bike and hike', destination: 'Hell\'s Gate, Kenya', image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg' },
-        { _id: '11', title: 'Nairobi City Tour', price: 15000, duration: 1, description: 'Explore vibrant capital', destination: 'Nairobi, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
-        { _id: '12', title: 'Kilifi Creek Experience', price: 32000, duration: 4, description: 'Peaceful Kilifi Creek', destination: 'Kilifi, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' }
+        { _id: '1', title: 'Masai Mara Safari', price: 45000, duration: 4, description: 'Witness the great wildebeest migration', destination: 'Masai Mara, Kenya', image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2022/09/maasai-mara-8-750x450.jpg' },
+        { _id: '2', title: 'Diani Beach Escape', price: 35000, duration: 5, description: 'Relax on pristine white sandy beaches', destination: 'Diani, Kenya', image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/280240380.webp?k=99cb13d977315adf39a039d754fb52cbe93327f1b433dd8ebe62e7922acbffe8&o=' },
+        { _id: '3', title: 'Mount Kenya Climb', price: 55000, duration: 6, description: 'Conquer the second highest mountain', destination: 'Mount Kenya', image: 'https://afar.brightspotcdn.com/dims4/default/87c3bbe/2147483647/strip/true/crop/728x500+36+0/resize/660x453!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2F52%2F27%2F75e5a780203adc8e148104996ede%2Foriginal-925782c19d188263e00bf14985b940b2.jpg' },
+        { _id: '4', title: 'Lamu Cultural Tour', price: 40000, duration: 3, description: 'Explore Swahili culture', destination: 'Lamu, Kenya', image: 'https://www.tsavonationalparkkenya.com/wp-content/uploads/2024/02/lamu-island-featured.webp' },
+        { _id: '5', title: 'Amboseli Elephant Safari', price: 48000, duration: 4, description: 'Elephants with Kilimanjaro backdrop', destination: 'Amboseli, Kenya', image: 'https://kilidovetours.com/wp-content/uploads/2023/09/Alone-Maasai-Warrior-at-Amboseli-National-Park-1024x683.webp' },
+        { _id: '6', title: 'Tsavo National Park', price: 42000, duration: 5, description: 'Kenya\'s largest national park', destination: 'Tsavo, Kenya', image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2020/02/a-tsavo-west-national-park-1.jpg' },
+        { _id: '7', title: 'Watamu Beach Resort', price: 38000, duration: 5, description: 'Coastal paradise', destination: 'Watamu, Kenya', image: 'https://ajkenyasafaris.com/wp-content/uploads/2023/05/watamu-beaches-bg1.webp' },
+        { _id: '8', title: 'Lake Nakuru Safari', price: 38000, duration: 3, description: 'Flamingos and rhinos', destination: 'Lake Nakuru, Kenya', image: 'https://www.lakenakurukenya.com/wp-content/uploads/2020/08/Flamingos-in-Lake-Nakuru-National-Park.jpg' },
+        { _id: '9', title: 'Samburu Adventure', price: 52000, duration: 5, description: 'Rare northern species', destination: 'Samburu, Kenya', image: 'https://masaiafricasafaris.com/wp-content/uploads/2021/03/Samburu-tour-1024x529.jpg' },
+        { _id: '10', title: 'Hell\'s Gate Adventure', price: 28000, duration: 2, description: 'Bike and hike', destination: 'Hell\'s Gate, Kenya', image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2019/09/Hell%E2%80%99s-Gate-National-Park.jpg' },
+        { _id: '11', title: 'Nairobi City Tour', price: 15000, duration: 1, description: 'Explore vibrant capital', destination: 'Nairobi, Kenya', image: 'https://images.trvl-media.com/place/178290/2eb789d7-20a3-45da-9fab-790a820f2cd3.jpg' },
+        { _id: '12', title: 'Kilifi Creek Experience', price: 32000, duration: 4, description: 'Peaceful Kilifi Creek', destination: 'Kilifi, Kenya', image: 'https://afar.brightspotcdn.com/dims4/default/0534973/2147483647/strip/false/crop/1024x715+0+0/resize/1024x715!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2Fa6%2Fce%2F85066e25105c5fea1015e7f31fe1%2Foriginal-dbbc0934669cc20ce4785385b4599a5b.jpg' }
     ];
     res.json({ success: true, count: packages.length, data: packages });
 });
