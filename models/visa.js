@@ -21,35 +21,28 @@ const visaSchema = new mongoose.Schema({
         type: Date, 
         required: true 
     },
-    email: {
-        type: String,
+    email: { 
+        type: String, 
         required: true,
         lowercase: true
     },
-    phone: {
-        type: String,
-        required: true
+    phone: { 
+        type: String, 
+        required: true 
     },
     
     // Passport Details
-    passportIssueDate: {
-        type: Date,
-        required: true
-    },
     passportExpiryDate: { 
         type: Date, 
-        required: true,
-        validate: {
-            validator: function(v) {
-                return v > this.passportIssueDate;
-            },
-            message: 'Expiry date must be after issue date'
-        }
+        required: true 
     },
-    passportIssueCountry: {
-        type: String,
-        required: true,
-        default: 'Kenya'
+    passportIssueDate: { 
+        type: Date, 
+        required: true 
+    },
+    passportIssueCountry: { 
+        type: String, 
+        default: 'Kenya' 
     },
     
     // Destination Details
@@ -59,142 +52,66 @@ const visaSchema = new mongoose.Schema({
     },
     travelPurpose: { 
         type: String, 
-        enum: ['tourism', 'business', 'transit', 'study', 'work', 'medical'],
-        required: true
+        enum: ['tourism', 'business', 'transit', 'study', 'work'],
+        default: 'tourism'
     },
-    intendedTravelDate: {
-        type: Date,
-        required: true
+    intendedTravelDate: { 
+        type: Date, 
+        required: true 
     },
-    durationOfStay: {
-        type: Number, // in days
-        required: true
+    durationOfStay: { 
+        type: Number, 
+        required: true,
+        min: 1
     },
     
     // Visa Details
-    visaType: {
-        type: String,
-        enum: ['tourist', 'business', 'transit', 'student', 'work', 'medical'],
-        required: true
+    visaType: { 
+        type: String, 
+        enum: ['tourist', 'business', 'transit', 'student', 'work'],
+        default: 'tourist'
     },
-    visaStatus: {
-        type: String,
+    visaStatus: { 
+        type: String, 
         enum: ['draft', 'documents_uploaded', 'submitted', 'processing', 'approved', 'rejected'],
         default: 'draft'
     },
     
     // Application Reference
-    applicationReference: {
-        type: String,
-        unique: true,
-        sparse: true
+    applicationReference: { 
+        type: String, 
+        unique: true, 
+        sparse: true 
     },
-    
-    // Address Information
-    address: {
-        street: String,
-        city: String,
-        postalCode: String,
-        country: String
-    },
-    
-    // Employment Information
-    employmentStatus: {
-        type: String,
-        enum: ['employed', 'self-employed', 'unemployed', 'student', 'retired']
-    },
-    employerName: String,
-    employerAddress: String,
-    occupation: String,
-    monthlyIncome: Number,
-    
-    // Travel History
-    previousVisas: [{
-        country: String,
-        visaType: String,
-        issueDate: Date,
-        expiryDate: Date
-    }],
     
     // Documents
     documents: [{
         type: { 
             type: String,
-            enum: [
-                'passport_copy', 
-                'passport_photo', 
-                'invitation_letter', 
-                'hotel_booking', 
-                'flight_itinerary', 
-                'bank_statement', 
-                'employment_letter',
-                'travel_insurance',
-                'yellow_fever_certificate',
-                'police_clearance',
-                'marriage_certificate',
-                'birth_certificate'
-            ]
+            enum: ['passport_copy', 'photo', 'invitation_letter', 'hotel_booking', 'flight_itinerary', 'bank_statement']
         },
         filename: String,
         path: String,
         uploadedAt: { 
             type: Date, 
             default: Date.now 
-        },
-        verified: {
-            type: Boolean,
-            default: false
         }
     }],
     
-    // Emergency Contact
-    emergencyContact: {
-        name: String,
-        relationship: String,
-        phone: String,
-        email: String
-    },
-    
-    // Application Details
+    // Application Dates
     submissionDate: Date,
-    processingStartDate: Date,
     decisionDate: Date,
     rejectionReason: String,
-    approvalConditions: String,
     
     // Fees
-    visaFee: {
-        type: Number,
-        default: 0
-    },
-    serviceFee: {
-        type: Number,
-        default: 2500 // KES 2,500 service fee
-    },
-    totalFee: {
-        type: Number,
-        default: 2500
-    },
-    paymentStatus: {
-        type: String,
+    visaFee: { type: Number, default: 0 },
+    serviceFee: { type: Number, default: 2500 },
+    totalFee: { type: Number, default: 2500 },
+    paymentStatus: { 
+        type: String, 
         enum: ['pending', 'paid', 'refunded'],
-        default: 'pending'
+        default: 'pending' 
     },
-    paymentReference: String,
-    
-    // Associated Booking
-    bookingId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Booking'
-    },
-    
-    // Tracking
-    trackingHistory: [{
-        status: String,
-        date: { type: Date, default: Date.now },
-        note: String,
-        updatedBy: String
-    }],
     
     // Timestamps
     createdAt: { 
@@ -207,30 +124,18 @@ const visaSchema = new mongoose.Schema({
     }
 });
 
-// Update total fee and add tracking before saving
+// Update timestamps before saving
 visaSchema.pre('save', function(next) {
-    this.totalFee = (this.visaFee || 0) + (this.serviceFee || 2500);
     this.updatedAt = Date.now();
+    this.totalFee = (this.visaFee || 0) + (this.serviceFee || 2500);
     
-    // Add to tracking history if status changed
-    if (this.isModified('visaStatus')) {
-        this.trackingHistory.push({
-            status: this.visaStatus,
-            date: new Date(),
-            note: `Status changed to ${this.visaStatus}`
-        });
-    }
-    
-    next();
-});
-
-// Generate application reference before saving if not exists
-visaSchema.pre('save', async function(next) {
+    // Generate application reference if not exists
     if (!this.applicationReference) {
         const year = new Date().getFullYear().toString().slice(-2);
         const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
         this.applicationReference = `VISA${year}${random}`;
     }
+    
     next();
 });
 
