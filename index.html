@@ -685,7 +685,7 @@
             const container = document.getElementById('bookings-list');
             container.innerHTML = 'Loading...';
             try {
-                const res = await fetch('/api/bookings');
+                const response = await fetch('https://travel-app-production-3893.up.railway.app/api/packages');
                 const data = await res.json();
                 if (data.success && data.data.length > 0) {
                     container.innerHTML = data.data.map(b => `
@@ -746,4 +746,88 @@
                 } else {
                     resultDiv.innerHTML = `<div style="background:#f8d7da; color:#721c24; padding:1rem;">❌ Error: ${json.error}</div>`;
                 }
-           
+                       } catch(error) {
+                resultDiv.innerHTML = `<div style="background:#f8d7da; color:#721c24; padding:1rem;">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function trackVisaApplication() {
+            const ref = document.getElementById('trackingRef').value;
+            const resultDiv = document.getElementById('trackingResult');
+            
+            if (!ref) {
+                resultDiv.innerHTML = '<p style="color:#e74c3c;">Please enter a reference number</p>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '⏳ Searching...';
+            
+            try {
+                const res = await fetch(`/api/visa/track/${ref}`);
+                const json = await res.json();
+                
+                if (json.success) {
+                    const statusColors = {
+                        'draft': '#f39c12',
+                        'documents_uploaded': '#3498db',
+                        'submitted': '#3498db',
+                        'processing': '#f39c12',
+                        'approved': '#27ae60',
+                        'rejected': '#e74c3c'
+                    };
+                    
+                    resultDiv.innerHTML = `
+                        <div style="background:#f8f9fa; padding:1rem; border-radius:5px;">
+                            <p><strong>Reference:</strong> ${json.applicationReference}</p>
+                            <p><strong>Name:</strong> ${json.fullName}</p>
+                            <p><strong>Destination:</strong> ${json.destinationCountry}</p>
+                            <p><strong>Passport:</strong> ${json.passportNumber}</p>
+                            <p><strong>Status:</strong> 
+                                <span style="background:${statusColors[json.status]}; color:white; padding:0.3rem 0.8rem; border-radius:20px;">
+                                    ${json.statusMessage}
+                                </span>
+                            </p>
+                            <p><strong>Submitted:</strong> ${json.submissionDate ? new Date(json.submissionDate).toLocaleDateString() : 'Not yet'}</p>
+                            <p><strong>Last Updated:</strong> ${new Date(json.lastUpdated).toLocaleDateString()}</p>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<p style="color:#e74c3c;">❌ ${json.error}</p>`;
+                }
+            } catch(error) {
+                resultDiv.innerHTML = `<p style="color:#e74c3c;">❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const resultDiv = document.getElementById('contactResult');
+            resultDiv.innerHTML = '✅ Message sent! We\'ll get back to you soon.';
+            resultDiv.style.color = '#27ae60';
+            event.target.reset();
+            setTimeout(() => { resultDiv.innerHTML = ''; }, 5000);
+        }
+        
+        // Set default travel date
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        if(document.getElementById('visaTravelDate')) {
+            document.getElementById('visaTravelDate').valueAsDate = tomorrow;
+        }
+        if(document.getElementById('travelDate')) {
+            document.getElementById('travelDate').valueAsDate = tomorrow;
+        }
+        
+        // Update destination field when selected
+        document.getElementById('destination').addEventListener('change', function() {
+            document.getElementById('visaDestination').value = this.value;
+        });
+        
+        // Update nationality field when selected
+        document.getElementById('nationality').addEventListener('change', function() {
+            document.getElementById('visaNationality').value = this.value;
+        });
+    </script>
+</body>
+</html>
