@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const path = require('path');
+const axios = require('axios');
+const fs = require('fs');
 const app = express();
 
 // Models
@@ -19,6 +21,62 @@ app.use(express.static(__dirname));
 
 // JWT Secret
 const JWT_SECRET = 'your_super_secret_jwt_key_change_this';
+
+// ==================== M-PESA CREDENTIALS ====================
+const consumerKey = '20Xyp3T8p7VQXWjJj8WRvJdM2HYMU0PIX73Zn5GpNhYwnhiT';
+const consumerSecret = 'DQfRcj0E5uO27f9DECtQYSVNFkQN1wnW4oKTgTrtAvdPJhVJ4QPN3pFGEwBaxUvl';
+const businessShortCode = '174379';
+const passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
+const CALLBACK_URL = 'https://travel-app-production-3893.up.railway.app/api/mpesa/callback';
+
+// ==================== M-PESA FUNCTIONS ====================
+const getAccessToken = async () => {
+    const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
+    try {
+        const response = await axios.get(
+            'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
+            { headers: { Authorization: `Basic ${auth}` }, timeout: 10000 }
+        );
+        return response.data.access_token;
+    } catch (error) {
+        console.log('❌ M-Pesa Token Error:', error.message);
+        return null;
+    }
+};
+
+const stkPush = async (phoneNumber, amount, accountNumber) => {
+    const token = await getAccessToken();
+    if (!token) return { error: 'Failed to get token' };
+
+    const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, -3);
+    const password = Buffer.from(`${businessShortCode}${passkey}${timestamp}`).toString('base64');
+
+    const data = {
+        BusinessShortCode: businessShortCode,
+        Password: password,
+        Timestamp: timestamp,
+        TransactionType: 'CustomerPayBillOnline',
+        Amount: amount,
+        PartyA: phoneNumber,
+        PartyB: businessShortCode,
+        PhoneNumber: phoneNumber,
+        CallBackURL: CALLBACK_URL,
+        AccountReference: accountNumber,
+        TransactionDesc: 'Travel Booking Payment'
+    };
+
+    try {
+        const response = await axios.post(
+            'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest',
+            data,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+        return response.data;
+    } catch (error) {
+        console.log('❌ STK Push Error:', error.message);
+        return { error: error.message };
+    }
+};
 
 // ==================== MONGODB CONNECTION ====================
 const MONGODB_URI = process.env.MONGO_URL || 'mongodb://localhost:27017/travel_platform';
@@ -88,119 +146,87 @@ app.get('/api/auth/me', authMiddleware, async (req, res) => {
     res.json({ success: true, user: req.user });
 });
 
-// ==================== PACKAGES (12 Packages with Updated Images) ====================
+// ==================== PACKAGES (12 Packages) ====================
 app.get('/api/packages', (req, res) => {
     const packages = [
-        { 
-            _id: '1', 
-            title: 'Masai Mara Safari', 
-            price: 45000, 
-            duration: 4, 
-            description: 'Witness the great wildebeest migration', 
-            destination: 'Masai Mara, Kenya', 
-            image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2022/09/maasai-mara-8-750x450.jpg' 
-        },
-        { 
-            _id: '2', 
-            title: 'Diani Beach Escape', 
-            price: 35000, 
-            duration: 5, 
-            description: 'Relax on pristine white sandy beaches', 
-            destination: 'Diani, Kenya', 
-            image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/280240380.webp?k=99cb13d977315adf39a039d754fb52cbe93327f1b433dd8ebe62e7922acbffe8&o=' 
-        },
-        { 
-            _id: '3', 
-            title: 'Mount Kenya Climb', 
-            price: 55000, 
-            duration: 6, 
-            description: 'Conquer the second highest mountain', 
-            destination: 'Mount Kenya', 
-            image: 'https://afar.brightspotcdn.com/dims4/default/87c3bbe/2147483647/strip/true/crop/728x500+36+0/resize/660x453!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2F52%2F27%2F75e5a780203adc8e148104996ede%2Foriginal-925782c19d188263e00bf14985b940b2.jpg' 
-        },
-        { 
-            _id: '4', 
-            title: 'Lamu Cultural Tour', 
-            price: 40000, 
-            duration: 3, 
-            description: 'Explore Swahili culture and historic architecture', 
-            destination: 'Lamu, Kenya', 
-            image: 'https://www.tsavonationalparkkenya.com/wp-content/uploads/2024/02/lamu-island-featured.webp' 
-        },
-        { 
-            _id: '5', 
-            title: 'Amboseli Elephant Safari', 
-            price: 48000, 
-            duration: 4, 
-            description: 'See elephants with Mount Kilimanjaro backdrop', 
-            destination: 'Amboseli, Kenya', 
-            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/African_Bush_Elephant.jpg/250px-African_Bush_Elephant.jpg' 
-        },
-        { 
-            _id: '6', 
-            title: 'Tsavo National Park', 
-            price: 42000, 
-            duration: 5, 
-            description: 'Explore Kenya\'s largest national park', 
-            destination: 'Tsavo, Kenya', 
-            image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2020/02/a-tsavo-west-national-park-1.jpg' 
-        },
-        { 
-            _id: '7', 
-            title: 'Watamu Beach Resort', 
-            price: 38000, 
-            duration: 5, 
-            description: 'Relax at Kenya\'s coastal paradise', 
-            destination: 'Watamu, Kenya', 
-            image: 'https://ajkenyasafaris.com/wp-content/uploads/2023/05/watamu-beaches-bg1.webp' 
-        },
-        { 
-            _id: '8', 
-            title: 'Lake Nakuru Safari', 
-            price: 38000, 
-            duration: 3, 
-            description: 'See flamingos and rhinos', 
-            destination: 'Lake Nakuru, Kenya', 
-            image: 'https://www.lakenakurukenya.com/wp-content/uploads/2020/08/Flamingos-in-Lake-Nakuru-National-Park.jpg' 
-        },
-        { 
-            _id: '9', 
-            title: 'Samburu Wildlife Adventure', 
-            price: 52000, 
-            duration: 5, 
-            description: 'Discover rare northern species', 
-            destination: 'Samburu, Kenya', 
-            image: 'https://masaiafricasafaris.com/wp-content/uploads/2021/03/Samburu-tour-1024x529.jpg' 
-        },
-        { 
-            _id: '10', 
-            title: 'Hell\'s Gate Adventure', 
-            price: 28000, 
-            duration: 2, 
-            description: 'Bike and hike in this unique park', 
-            destination: 'Hell\'s Gate, Kenya', 
-            image: 'https://www.serengetiparktanzania.com/wp-content/uploads/2019/09/Hell%E2%80%99s-Gate-National-Park.jpg' 
-        },
-        { 
-            _id: '11', 
-            title: 'Nairobi City Tour', 
-            price: 15000, 
-            duration: 1, 
-            description: 'Explore Kenya\'s vibrant capital', 
-            destination: 'Nairobi, Kenya', 
-            image: 'https://images.trvl-media.com/place/178290/2eb789d7-20a3-45da-9fab-790a820f2cd3.jpg' 
-        },
-        { 
-            _id: '12', 
-            title: 'Kilifi Creek Experience', 
-            price: 32000, 
-            duration: 4, 
-            description: 'Relax by the peaceful Kilifi Creek', 
-            destination: 'Kilifi, Kenya', 
-            image: 'https://afar.brightspotcdn.com/dims4/default/0534973/2147483647/strip/false/crop/1024x715+0+0/resize/1024x715!/quality/90/?url=https%3A%2F%2Fk3-prod-afar-media.s3.us-west-2.amazonaws.com%2Fbrightspot%2Fa6%2Fce%2F85066e25105c5fea1015e7f31fe1%2Foriginal-dbbc0934669cc20ce4785385b4599a5b.jpg' 
-        }
+        { _id: '1', title: 'Masai Mara Safari', price: 45000, duration: 4, description: 'Witness the great wildebeest migration', destination: 'Masai Mara, Kenya', image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg' },
+        { _id: '2', title: 'Diani Beach Escape', price: 35000, duration: 5, description: 'Relax on pristine white sandy beaches', destination: 'Diani, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' },
+        { _id: '3', title: 'Mount Kenya Climb', price: 55000, duration: 6, description: 'Conquer the second highest mountain', destination: 'Mount Kenya', image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg' },
+        { _id: '4', title: 'Lamu Cultural Tour', price: 40000, duration: 3, description: 'Explore Swahili culture', destination: 'Lamu, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
+        { _id: '5', title: 'Amboseli Elephant Safari', price: 48000, duration: 4, description: 'Elephants with Kilimanjaro backdrop', destination: 'Amboseli, Kenya', image: 'https://images.pexels.com/photos/1734025/pexels-photo-1734025.jpeg' },
+        { _id: '6', title: 'Tsavo National Park', price: 42000, duration: 5, description: 'Kenya\'s largest national park', destination: 'Tsavo, Kenya', image: 'https://images.pexels.com/photos/16012294/pexels-photo-16012294.jpeg' },
+        { _id: '7', title: 'Watamu Beach Resort', price: 38000, duration: 5, description: 'Coastal paradise', destination: 'Watamu, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' },
+        { _id: '8', title: 'Lake Nakuru Safari', price: 38000, duration: 3, description: 'Flamingos and rhinos', destination: 'Lake Nakuru, Kenya', image: 'https://images.pexels.com/photos/16012294/pexels-photo-16012294.jpeg' },
+        { _id: '9', title: 'Samburu Adventure', price: 52000, duration: 5, description: 'Rare northern species', destination: 'Samburu, Kenya', image: 'https://images.pexels.com/photos/750539/pexels-photo-750539.jpeg' },
+        { _id: '10', title: 'Hell\'s Gate Adventure', price: 28000, duration: 2, description: 'Bike and hike', destination: 'Hell\'s Gate, Kenya', image: 'https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg' },
+        { _id: '11', title: 'Nairobi City Tour', price: 15000, duration: 1, description: 'Explore vibrant capital', destination: 'Nairobi, Kenya', image: 'https://images.pexels.com/photos/4666859/pexels-photo-4666859.jpeg' },
+        { _id: '12', title: 'Kilifi Creek Experience', price: 32000, duration: 4, description: 'Peaceful Kilifi Creek', destination: 'Kilifi, Kenya', image: 'https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg' }
     ];
     res.json({ success: true, count: packages.length, data: packages });
+});
+
+// ==================== M-PESA PAYMENT ENDPOINT ====================
+app.post('/api/mpesa/pay', authMiddleware, async (req, res) => {
+    try {
+        const { bookingId, phone, amount } = req.body;
+        
+        const booking = await Booking.findById(bookingId);
+        if (!booking) {
+            return res.status(404).json({ success: false, error: 'Booking not found' });
+        }
+        
+        const mpesaResponse = await stkPush(phone, amount, bookingId);
+        
+        if (mpesaResponse.error) {
+            return res.status(400).json({ success: false, error: mpesaResponse.error });
+        }
+        
+        booking.checkoutRequestId = mpesaResponse.CheckoutRequestID;
+        await booking.save();
+        
+        res.json({
+            success: true,
+            message: 'STK Push sent. Check your phone.',
+            data: mpesaResponse
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ==================== M-PESA CALLBACK ====================
+app.post('/api/mpesa/callback', async (req, res) => {
+    console.log('📞 M-Pesa Callback Received:', JSON.stringify(req.body, null, 2));
+    
+    if (req.body.Body && req.body.Body.stkCallback) {
+        const callback = req.body.Body.stkCallback;
+        const checkoutId = callback.CheckoutRequestID;
+        
+        const booking = await Booking.findOne({ checkoutRequestId: checkoutId });
+        
+        if (booking) {
+            if (callback.ResultCode === 0) {
+                booking.paymentStatus = 'paid';
+                
+                // Extract payment details
+                const metadata = callback.CallbackMetadata;
+                if (metadata && metadata.Item) {
+                    metadata.Item.forEach(item => {
+                        if (item.Name === 'Amount') booking.totalAmount = item.Value;
+                        if (item.Name === 'MpesaReceiptNumber') booking.mpesaReceipt = item.Value;
+                    });
+                }
+                console.log('✅ Payment successful for booking:', booking._id);
+            } else {
+                booking.paymentStatus = 'failed';
+                console.log('❌ Payment failed:', callback.ResultDesc);
+            }
+            
+            await booking.save();
+        }
+    }
+    
+    res.json({ ResultCode: 0, ResultDesc: "Success" });
 });
 
 // ==================== BOOKINGS ====================
@@ -234,6 +260,16 @@ app.get('/api/bookings', authMiddleware, async (req, res) => {
     try {
         const bookings = await Booking.find({ user: req.user._id }).sort({ createdAt: -1 });
         res.json({ success: true, data: bookings });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.get('/api/bookings/:id', authMiddleware, async (req, res) => {
+    try {
+        const booking = await Booking.findById(req.params.id);
+        if (!booking) return res.status(404).json({ success: false, error: 'Booking not found' });
+        res.json({ success: true, data: booking });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
     }
@@ -350,5 +386,6 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`🌍 Public: https://travel-app-production-3893.up.railway.app`);
     console.log(`📁 Auth: POST /api/auth/register, POST /api/auth/login`);
     console.log(`📦 Packages: GET /api/packages (12 packages)`);
-    console.log(`🛂 Visa: GET /api/visa/countries, GET /api/visa/requirements/:country`);
+    console.log(`💰 M-Pesa: POST /api/mpesa/pay`);
+    console.log(`🛂 Visa: GET /api/visa/countries`);
 });
