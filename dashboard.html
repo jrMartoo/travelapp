@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - SafiriPesa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ==================== SIDEBAR ==================== */
+        .sidebar {
+            width: 260px;
+            background-color: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .sidebar-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar-logo span { color: #27ae60; }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar-menu li a {
+            color: #a0aec0;
+            text-decoration: none;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu li a:hover, 
+        .sidebar-menu li a.active {
+            background-color: rgba(255,255,255,0.05);
+            color: white;
+            border-left-color: #27ae60;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            text-align: center;
+            padding: 15px;
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            color: #ff7675;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #27ae60;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* ==================== BOOKING CARDS ==================== */
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .booking-image {
+            width: 300px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .booking-details {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .booking-details h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .booking-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .status-badge {
+            background: #d4edda;
+            color: #155724;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-primary {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #219a52;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #ddd;
+            color: #555;
+        }
+
+        .btn-outline:hover {
+            border-color: #2c3e50;
+            color: #2c3e50;
+        }
+
+        /* ==================== EMPTY STATE ==================== */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .empty-state h3 { font-size: 1.5rem; margin-bottom: 10px; color: #2c3e50; }
+        .empty-state p { color: #777; margin-bottom: 20px; }
+
+        /* Hide tabs by default */
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; padding: 10px; flex-direction: row; justify-content: space-between; align-items: center; height: auto; }
+            .sidebar-logo { margin-bottom: 0; font-size: 1.2rem; }
+            .sidebar-menu { flex-direction: row; gap: 5px; }
+            .sidebar-menu li a { padding: 10px; font-size: 0.8rem; border-left: none; border-bottom: 3px solid transparent; }
+            .sidebar-menu li a.active { border-left: none; border-bottom-color: #27ae60; }
+            .logout-btn { margin-top: 0; padding: 10px; }
+            .main-content { padding: 20px; }
+            .booking-card { flex-direction: column; height: auto; }
+            .booking-image { width: 100%; height: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <a href="index.html" class="sidebar-logo">Safiri<span>Pesa</span></a>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" onclick="showTab('bookings', this)">🎒 My Bookings</a></li>
+            <li><a href="#" onclick="showTab('visas', this)">🛂 Visa Applications</a></li>
+            <li><a href="#" onclick="showTab('profile', this)">👤 My Profile</a></li>
+        </ul>
+        <a href="index.html" class="logout-btn">Log Out</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <div class="user-profile">
+                <div class="user-avatar">D</div>
+                <span>Demo User</span>
+            </div>
+        </div>
+
+        <!-- TAB 1: BOOKINGS -->
+        <div id="bookings" class="tab-pane active">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">Upcoming Trips</h2>
+            
+            <div class="booking-grid">
+                <!-- Booking Card 1 -->
+                <div class="booking-card">
+                    <div class="booking-image" style="background-image: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="booking-details">
+                        <div>
+                            <span class="status-badge">✅ Confirmed</span>
+                            <h3>Maasai Mara Safari</h3>
+                            <div class="booking-meta">
+                                <span>📅 15th Nov - 18th Nov 2024</span>
+                                <span>👥 2 Adults</span>
+                                <span>🏨 Full Board</span>
+                            </div>
+                            <p style="color: #666; font-size: 0.9rem;">Booking Ref: <strong>#SP-8842</strong></p>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="btn-action btn-primary" onclick="alert('Downloading Ticket PDF...')">Download Ticket</button>
+                            <button class="btn-action btn-outline">Contact Support</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Card 2 -->
+                <div class="booking-card">
+                    <div class="booking-image" style="background-image: url('https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="booking-details">
+                        <div>
+                            <span class="status-badge" style="background: #fff3cd; color: #856404;">⏳ Pending Payment</span>
+                            <h3>Diani Beach Getaway</h3>
+                            <div class="booking-meta">
+                                <span>📅 20th Dec - 24th Dec 2024</span>
+                                <span>👥 2 Adults</span>
+                                <span>🏨 Half Board</span>
+                            </div>
+                            <p style="color: #666; font-size: 0.9rem;">Total: <strong>KES 45,000</strong></p>
+                        </div>
+                        <div class="booking-actions">
+                            <button class="btn-action btn-primary" onclick="alert('Initiating M-Pesa STK Push...')">Complete Payment</button>
+                            <button class="btn-action btn-outline" onclick="alert('Cancelling booking...')">Cancel Booking</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: VISAS -->
+        <div id="visas" class="tab-pane">
+            <div class="empty-state">
+                <h3>No active visa applications</h3>
+                <p>When you apply for a visa with SafiriPesa, you can track the status right here.</p>
+                <a href="index.html#visa" class="btn-action btn-primary" style="display: inline-block; margin-top: 10px;">Apply for a Visa</a>
+            </div>
+        </div>
+
+        <!-- TAB 3: PROFILE -->
+        <div id="profile" class="tab-pane">
+            <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); max-width: 500px;">
+                <h2 style="color: #2c3e50; margin-bottom: 20px;">Personal Details</h2>
+                
+                <label style="font-weight: 600; color: #555;">Full Name</label>
+                <input type="text" value="Demo User" style="width: 100%; padding: 12px; margin: 8px 0 20px 0; border: 1px solid #ddd; border-radius: 8px;">
+                
+                <label style="font-weight: 600; color: #555;">Email Address</label>
+                <input type="email" value="demo@safiripesa.com" style="width: 100%; padding: 12px; margin: 8px 0 20px 0; border: 1px solid #ddd; border-radius: 8px;">
+                
+                <label style="font-weight: 600; color: #555;">Phone Number</label>
+                <input type="text" value="+254 700 000 000" style="width: 100%; padding: 12px; margin: 8px 0 20px 0; border: 1px solid #ddd; border-radius: 8px;">
+                
+                <button class="btn-action btn-primary" onclick="alert('Profile updated successfully!')">Save Changes</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Tab Switching Script -->
+    <script>
+        function showTab(tabId, btn) {
+            // 1. Hide all tabs
+            const tabs = document.querySelectorAll('.tab-pane');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // 2. Remove active class from all buttons
+            const buttons = document.querySelectorAll('.sidebar-menu a');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // 3. Show the selected tab and make button active
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

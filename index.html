@@ -3,788 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>SafiriPesa - Kenya Travel</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-        }
-        
-        .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .navbar h1 {
-            font-size: 1.5rem;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .auth-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .btn-login, .btn-signup, .btn-logout {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .btn-login {
-            background: white;
-            color: #667eea;
-        }
-        
-        .btn-signup {
-            background: #27ae60;
-            color: white;
-        }
-        
-        .btn-logout {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        .user-name {
-            background: rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-        }
-        
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/1032650/pexels-photo-1032650.jpeg?auto=compress&cs=tinysrgb&w=600');
-            height: 300px;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-        }
-        
-        .hero-content h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .hero-content p {
-            font-size: 1rem;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin: 2rem 0;
-            font-size: 1.8rem;
-            color: #333;
-        }
-        
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0.5rem auto;
-        }
-        
-        .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .package-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .package-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .package-image {
-            height: 160px;
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .package-content {
-            padding: 1rem;
-        }
-        
-        .package-title {
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
-            color: #333;
-        }
-        
-        .package-price {
-            font-size: 1.3rem;
-            color: #27ae60;
-            font-weight: bold;
-            margin: 0.5rem 0;
-        }
-        
-        .btn-book {
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 0.8rem;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-        
-        .btn-book:hover {
-            background: #219a52;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 400px;
-            width: 90%;
-        }
-        
-        .modal-content h2 {
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .modal-content input, .modal-content select {
-            width: 100%;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        
-        .modal-content button {
-            width: 100%;
-            padding: 0.8rem;
-            margin-top: 1rem;
-            background: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .switch-auth {
-            text-align: center;
-            margin-top: 1rem;
-            color: #667eea;
-            cursor: pointer;
-        }
-        
-        .error-msg {
-            color: #e74c3c;
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-        }
-        
-        .dashboard {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-        }
-        
-        .dashboard-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        
-        .stat-card {
-            background: #f8f9fa;
-            padding: 1rem;
-            text-align: center;
-            border-radius: 5px;
-        }
-        
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #27ae60;
-        }
-        
-        .visa-section, .contacts-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-        }
-        
-        .footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .status-paid { background: #27ae60; color: white; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.8rem; }
-        .status-pending { background: #f39c12; color: white; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.8rem; }
-        .status-failed { background: #e74c3c; color: white; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.8rem; }
-        
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
+    <title>SafiriPesa - Discover Kenya & Beyond</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- NAVBAR -->
     <nav class="navbar">
-        <h1>🌍 SafiriPesa</h1>
+        <a href="#home" class="logo-container">
+            <img src="images/no backy.png" alt="SafiriPesa Logo" style="height: 90px; width: auto; mix-blend-mode: multiply;">
+        </a>
         <div class="nav-links">
             <a href="#home">Home</a>
-            <a href="#packages">Packages</a>
-            <a href="#dashboard">Dashboard</a>
-            <a href="#visa">Visa</a>
-            <a href="#contact">Contact</a>
+            <div class="dropdown">
+                <a href="#tours" style="cursor: pointer;">Tours ▾</a>
+                <div class="dropdown-content">
+                    <a href="#domestic">Domestic Deals</a>
+                    <a href="#africa">Africa Tours</a>
+                    <a href="#international">International Tours</a>
+                </div>
+            </div>
+            <a href="#non-resident">Non-Resident Packages</a>
+            <a href="gallery.html">Gallery</a>
+            <div class="dropdown">
+                <a href="#about" style="cursor: pointer;">About Us ▾</a>
+                <div class="dropdown-content">
+                    <a href="#who-we-are">Who We Are</a>
+                    <a href="#our-services">Our Services</a>
+                    <a href="#testimonials">Traveler Reviews</a>
+                </div>
+            </div>
+            <a href="#contact">Contact Us</a>
         </div>
-        <div class="auth-buttons" id="authButtons">
+        <div class="auth-buttons">
             <button class="btn-login" onclick="openLoginModal()">Login</button>
             <button class="btn-signup" onclick="openSignupModal()">Sign Up</button>
         </div>
-        <div id="userInfo" style="display: none;">
-            <span class="user-name" id="userName"></span>
-            <button class="btn-logout" onclick="logout()">Logout</button>
-        </div>
     </nav>
     
+    <!-- HERO -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1>Discover Kenya</h1>
-            <p>Experience the magic of Africa with our curated travel packages</p>
-            <p style="font-size: 0.9rem;">🇰🇪 Safari · Beaches · Mountains · Culture</p>
+            <h1 class="animate-load delay-1">Discover Kenya & Beyond.</h1>
+            <p class="animate-load delay-2">Experience the magic of Africa with our curated, all-inclusive travel packages.</p>
+            <a href="#tours" class="hero-btn animate-load delay-3">Explore Tours</a>
         </div>
     </section>
     
     <div class="container">
-        <h2 class="section-title" id="packages">Popular Travel Packages</h2>
-        <div class="packages-grid" id="packages-container">
-            <div style="text-align: center;">Loading packages...</div>
+        
+        <!-- ABOUT US SECTION -->
+        <div class="section-header reveal" id="about">
+            <h2>About SafiriPesa</h2>
+            <p>Your journey to unforgettable memories starts here.</p>
         </div>
         
-        <h2 class="section-title" id="dashboard">My Dashboard</h2>
-        <div class="dashboard" id="dashboardContainer">
-            <div style="text-align: center;">Login to see your dashboard</div>
+        <div class="about-grid reveal">
+            <div class="about-card about-image-card">
+                <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=800&q=80" alt="Safari" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="about-card" id="who-we-are">
+                <h3>Who We Are</h3>
+                <p>SafiriPesa is a premier Kenyan travel agency dedicated to curating seamless, unforgettable travel experiences. We believe that exploring the world should be as easy as a few taps on your phone.</p>
+                <p>From the breathtaking savannahs of the Maasai Mara to the pristine beaches of Diani, we handle the logistics so you can focus on the adventure. We are your trusted local partner for global journeys.</p>
+            </div>
+        </div>
+
+        <!-- OUR SERVICES -->
+        <div class="section-header reveal" id="our-services" style="margin-top: 80px;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #2c3e50;">Our Services</h3>
+        </div>
+
+        <div class="services-grid reveal">
+            <div class="service-card">
+                <h4>🌍 Curated Tours</h4>
+                <p>Domestic, African, and International travel packages tailored to your budget.</p>
+            </div>
+            <div class="service-card">
+                <h4>🛂 Visa Assistance</h4>
+                <p>Expert guidance and application processing for over 40 countries.</p>
+            </div>
+            <div class="service-card">
+                <h4>💳 Secure Payments</h4>
+                <p>Seamless booking with our integrated M-Pesa STK Push technology.</p>
+            </div>
+            <div class="service-card">
+                <h4>💼 Corporate Travel</h4>
+                <p>Custom itineraries and logistics for business teams.</p>
+            </div>
+        </div>
+
+        <!-- TESTIMONIALS -->
+        <div class="section-header reveal" id="testimonials" style="margin-top: 100px;">
+            <h2>Where We've Been</h2>
+            <p>Don't just take our word for it. See the moments we've created.</p>
         </div>
         
-        <!-- ==================== VISA SECTION ==================== -->
-        <h2 class="section-title" id="visa">🛂 Visa Assistance - 40+ Countries</h2>
-        <div class="visa-section">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div>
-                    <label style="font-weight: bold;">Your Nationality</label>
-                    <select id="nationality" style="width:100%; padding:0.8rem;">
-                        <option value="KENYA">🇰🇪 Kenya</option>
-                        <option value="UAE">🇦🇪 UAE</option>
-                        <option value="UK">🇬🇧 United Kingdom</option>
-                        <option value="USA">🇺🇸 United States</option>
-                        <option value="INDIA">🇮🇳 India</option>
-                        <option value="CHINA">🇨🇳 China</option>
-                        <option value="JAPAN">🇯🇵 Japan</option>
-                        <option value="SOUTH AFRICA">🇿🇦 South Africa</option>
-                        <option value="NIGERIA">🇳🇬 Nigeria</option>
-                        <option value="GHANA">🇬🇭 Ghana</option>
-                        <option value="ETHIOPIA">🇪🇹 Ethiopia</option>
-                        <option value="TANZANIA">🇹🇿 Tanzania</option>
-                        <option value="UGANDA">🇺🇬 Uganda</option>
-                        <option value="RWANDA">🇷🇼 Rwanda</option>
-                        <option value="GERMANY">🇩🇪 Germany</option>
-                        <option value="FRANCE">🇫🇷 France</option>
-                        <option value="ITALY">🇮🇹 Italy</option>
-                        <option value="SPAIN">🇪🇸 Spain</option>
-                        <option value="CANADA">🇨🇦 Canada</option>
-                        <option value="AUSTRALIA">🇦🇺 Australia</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="font-weight: bold;">Destination Country</label>
-                    <select id="destination" style="width:100%; padding:0.8rem;">
-                        <option value="UAE">🇦🇪 UAE</option>
-                        <option value="UK">🇬🇧 United Kingdom</option>
-                        <option value="USA">🇺🇸 United States</option>
-                        <option value="KENYA">🇰🇪 Kenya</option>
-                        <option value="THAILAND">🇹🇭 Thailand</option>
-                        <option value="CHINA">🇨🇳 China</option>
-                        <option value="JAPAN">🇯🇵 Japan</option>
-                        <option value="SOUTH AFRICA">🇿🇦 South Africa</option>
-                        <option value="INDIA">🇮🇳 India</option>
-                        <option value="SINGAPORE">🇸🇬 Singapore</option>
-                        <option value="MALAYSIA">🇲🇾 Malaysia</option>
-                        <option value="EGYPT">🇪🇬 Egypt</option>
-                        <option value="TURKEY">🇹🇷 Turkey</option>
-                        <option value="GERMANY">🇩🇪 Germany</option>
-                        <option value="FRANCE">🇫🇷 France</option>
-                        <option value="ITALY">🇮🇹 Italy</option>
-                        <option value="SPAIN">🇪🇸 Spain</option>
-                        <option value="CANADA">🇨🇦 Canada</option>
-                        <option value="AUSTRALIA">🇦🇺 Australia</option>
-                        <option value="BRAZIL">🇧🇷 Brazil</option>
-                    </select>
+        <div class="testimonials-grid reveal">
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img9.jpg'); height: 350px;"></div> 
+                <div class="testimonial-content">
+                    <h4>The Majestic Amboseli</h4>
+                    <p class="location">📍 Amboseli National Park</p>
                 </div>
             </div>
-            <button onclick="checkVisaRequirements()" style="margin-top:1rem; padding:0.8rem; width:100%; background:#3498db; color:white; border:none; border-radius:5px; cursor:pointer;">🔍 Check Visa Requirements</button>
-            <div id="visaRequirements" style="margin-top:1rem;"></div>
-            
-            <div style="margin-top: 2rem; border-top: 1px solid #ddd; padding-top: 1rem;">
-                <h3>📝 Apply for Visa Assistance</h3>
-                <form id="visaApplicationForm" onsubmit="submitVisaApplication(event)">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <input type="text" id="visaFullName" placeholder="Full Name" required style="padding:0.8rem;">
-                        <input type="text" id="visaPassport" placeholder="Passport Number" required style="padding:0.8rem;">
-                        <input type="date" id="visaTravelDate" required style="padding:0.8rem;">
-                        <input type="number" id="visaDuration" placeholder="Duration (days)" required style="padding:0.8rem;">
-                        <select id="visaPurpose" required style="padding:0.8rem;">
-                            <option value="tourism">Tourism</option>
-                            <option value="business">Business</option>
-                            <option value="transit">Transit</option>
-                        </select>
-                        <select id="visaType" required style="padding:0.8rem;">
-                            <option value="tourist">Tourist</option>
-                            <option value="business">Business</option>
-                        </select>
-                    </div>
-                    <button type="submit" style="margin-top:1rem; padding:0.8rem; width:100%; background:#27ae60; color:white; border:none; border-radius:5px; cursor:pointer;">Apply for Visa</button>
-                </form>
-                <div id="visaApplicationResult" style="margin-top:1rem;"></div>
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img7.jpg'); height: 350px;"></div>
+                <div class="testimonial-content">
+                    <h4>Wild Encounters</h4>
+                    <p class="location">📍 Maasai Mara</p>
+                </div>
             </div>
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img1.jpg'); height: 350px;"></div>
+                <div class="testimonial-content">
+                    <h4>Ready for Adventure</h4>
+                    <p class="location">📍 Departure Day</p>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img6.jpg'); height: 350px;"></div>
+                <div class="testimonial-content">
+                    <h4>Good Vibes on the Road</h4>
+                    <p class="location">📍 Road Trip</p>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img5.jpg'); height: 350px;"></div>
+                <div class="testimonial-content">
+                    <h4>Friendly Competition</h4>
+                    <p class="location">📍 Travel Group</p>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img4.jpg'); height: 350px;"></div>
+                <div class="testimonial-content">
+                    <h4>Lakeside Serenity</h4>
+                    <p class="location">📍 Lake Naivasha</p>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img3.jpg'); height: 350px;"></div>
+                <div class="testimonial-content">
+                    <h4>Boat Safaris</h4>
+                    <p class="location">📍 Naivasha Boat Ride</p>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img2.jpg'); height: 350px;"></div>
+                <div class="testimonial-content">
+                    <h4>Safari Ready</h4>
+                    <p class="location">📍 On the Water</p>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-image" style="background-image: url('images/img9.jpg'); height: 350px;"></div>
+                <div class="testimonial-content">
+                    <h4>Endless Horizons</h4>
+                    <p class="location">📍 Kenya</p>
+                </div>
+            </div>
+        </div> 
+        
+        <!-- TOURS SECTION -->
+        <div id="tours" style="padding-top: 50px;"></div>
+        
+        <div class="section-header reveal">
+            <h2>Our Tours</h2>
+            <p>Select a category to explore your next adventure.</p>
+        </div>
+
+        <!-- TOUR FILTER TABS -->
+        <div class="tour-tabs reveal">
+            <button class="tab-btn active" onclick="scrollToSection('domestic')">🇰🇪 Domestic Deals</button>
+            <button class="tab-btn" onclick="scrollToSection('africa')">🌍 Africa Tours</button>
+            <button class="tab-btn" onclick="scrollToSection('international')">✈️ International Tours</button>
         </div>
         
-        <!-- ==================== CONTACT SECTION ==================== -->
-        <h2 class="section-title" id="contact">📞 Get In Touch</h2>
-        <div class="contacts-section">
-            <div style="text-align:center;">
-                <p>📞 +254 794 209 525 | +254 741 533 465 | +254 708 374 149</p>
-                <p>✉️ info@safiripesa.co.ke | bookings@safiripesa.co.ke</p>
-                <p>📍 Kimathi Street, Nairobi, Kenya</p>
-                <p>🕒 Mon-Fri: 8am-8pm | Sat: 9am-5pm | Sun: Closed</p>
+        <!-- DOMESTIC TOURS -->
+        <h3 class="category-title reveal" id="domestic">Domestic Deals (Kenya)</h3>
+        <div class="packages-grid reveal">
+            <div class="package-card">
+               <!-- FIXED: Put the Safari image back here -->
+               <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">KES 35,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Maasai Mara Safari</h3>
+                    <p class="package-details">3 Days / 2 Nights • Full Board</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Maasai%20Mara%20Safari%20(KES%2035,000).', '_blank')">Book Now</button>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">KES 45,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Diani Beach Getaway</h3>
+                    <p class="package-details">4 Days / 3 Nights • Half Board</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Diani%20Beach%20Getaway%20(KES%2045,000).', '_blank')">Book Now</button>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">KES 25,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Amboseli National Park</h3>
+                    <p class="package-details">2 Days / 1 Night • Game Drives</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Amboseli%20National%20Park%20(KES%2025,000).', '_blank')">Book Now</button>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <!-- Login Modal -->
+
+        <!-- AFRICA TOURS -->
+        <h3 class="category-title reveal" id="africa">Africa Tours</h3>
+        <div class="packages-grid reveal">
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">KES 65,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Zanzibar Island Escape</h3>
+                    <p class="package-details">Tanzania • 4 Days / 3 Nights</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Zanzibar%20Island%20Escape%20(KES%2065,000).', '_blank')">Book Now</button>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">KES 85,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Cape Town City Tour</h3>
+                    <p class="package-details">South Africa • 5 Days / 4 Nights</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Cape%20Town%20City%20Tour%20(KES%2085,000).', '_blank')">Book Now</button>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('images/kigali%20gorilla.png');">
+                    <div class="package-price-tag">KES 70,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Kigali & Gorilla Trek</h3>
+                    <p class="package-details">Rwanda • 3 Days / 2 Nights</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Kigali%20&%20Gorilla%20Trek%20(KES%2070,000).', '_blank')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- INTERNATIONAL TOURS -->
+        <h3 class="category-title reveal" id="international">International Tours</h3>
+        <div class="packages-grid reveal">
+            <div class="package-card">
+                <!-- FIXED: Put the Dubai image here -->
+                <div class="package-image" style="background-image: url('images/dubai.jpg');">
+                    <div class="package-price-tag">KES 120,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Dubai City & Desert Safari</h3>
+                    <p class="package-details">UAE • 5 Days / 4 Nights</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Dubai%20City%20&%20Desert%20Safari%20(KES%20120,000).', '_blank')">Book Now</button>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">KES 180,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">London Explorer</h3>
+                    <p class="package-details">UK • 7 Days / 6 Nights</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20London%20Explorer%20(KES%20180,000).', '_blank')">Book Now</button>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1533050487297-09b450131914?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">KES 150,000</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Istanbul Heritage Tour</h3>
+                    <p class="package-details">Turkey • 6 Days / 5 Nights</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Istanbul%20Heritage%20Tour%20(KES%20150,000).', '_blank')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NON-RESIDENT PACKAGES -->
+        <h3 class="category-title reveal" id="non-resident">Non-Resident Packages</h3>
+        <div class="packages-grid reveal">
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">$1,500 USD</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Ultimate Kenya Safari (For Expats)</h3>
+                    <p class="package-details">7 Days • Mara, Amboseli, Naivasha</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Ultimate%20Kenya%20Safari%20($1,500%20USD).', '_blank')">Book Now</button>
+                </div>
+            </div>
+            <div class="package-card">
+                <div class="package-image" style="background-image: url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=600&q=80');">
+                    <div class="package-price-tag">$800 USD</div>
+                </div>
+                <div class="package-content">
+                    <h3 class="package-title">Coastal Luxury Retreat</h3>
+                    <p class="package-details">5 Days • Diani Beach & Watamu</p>
+                    <button class="btn-book" onclick="window.open('https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20want%20to%20book%20the%20Coastal%20Luxury%20Retreat%20($800%20USD).', '_blank')">Book Now</button>
+                </div>
+            </div>
+        </div>
+
+       <!-- VISA SECTION -->
+       <div class="section-header reveal" id="visa" style="margin-top: 100px;">
+           <h2>🛂 Visa Assistance</h2>
+           <p>Fast, reliable visa processing for over 40 countries.</p>
+       </div>
+
+       <div class="reveal" style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 50px;">
+           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+               
+               <!-- Nationality Dropdown -->
+               <div>
+                   <label style="font-weight: 600; color: #555;">Nationality</label>
+                   <select style="width:100%; padding:15px; margin-top:10px; border-radius:10px; border:1px solid #ddd;">
+                       <option>Kenya</option>
+                       <option>Uganda</option>
+                       <option>Tanzania</option>
+                       <option>Rwanda</option>
+                       <option>Burundi</option>
+                       <option>South Sudan</option>
+                       <option>Ethiopia</option>
+                       <option>Somalia</option>
+                       <option>Djibouti</option>
+                       <option>Eritrea</option>
+                       <option>Nigeria</option>
+                       <option>Ghana</option>
+                       <option>South Africa</option>
+                       <option>Egypt</option>
+                       <option>Morocco</option>
+                       <option>Zambia</option>
+                       <option>Zimbabwe</option>
+                       <option>Botswana</option>
+                       <option>Namibia</option>
+                       <option>Mozambique</option>
+                       <option>Malawi</option>
+                       <option>United States</option>
+                       <option>Canada</option>
+                       <option>United Kingdom</option>
+                       <option>Germany</option>
+                       <option>France</option>
+                       <option>Italy</option>
+                       <option>Netherlands</option>
+                       <option>Switzerland</option>
+                       <option>Sweden</option>
+                       <option>Norway</option>
+                       <option>Denmark</option>
+                       <option>Australia</option>
+                       <option>New Zealand</option>
+                       <option>India</option>
+                       <option>China</option>
+                       <option>Japan</option>
+                       <option>South Korea</option>
+                       <option>Brazil</option>
+                       <option>Argentina</option>
+                       <option>Mexico</option>
+                       <option>United Arab Emirates</option>
+                       <option>Saudi Arabia</option>
+                       <option>Qatar</option>
+                       <option>Turkey</option>
+                   </select>
+               </div>
+
+               <!-- Destination Dropdown -->
+               <div>
+                   <label style="font-weight: 600; color: #555;">Destination</label>
+                   <select style="width:100%; padding:15px; margin-top:10px; border-radius:10px; border:1px solid #ddd;">
+                       <option>UAE (Dubai)</option>
+                       <option>United Kingdom</option>
+                       <option>United States</option>
+                       <option>Canada</option>
+                       <option>Schengen Area (Europe)</option>
+                       <option>South Africa</option>
+                       <option>Turkey</option>
+                       <option>China</option>
+                       <option>Australia</option>
+                       <option>India</option>
+                       <option>Saudi Arabia</option>
+                       <option>Qatar</option>
+                       <option>Japan</option>
+                       <option>South Korea</option>
+                       <option>Brazil</option>
+                       <option>Argentina</option>
+                       <option>New Zealand</option>
+                       <option>Egypt</option>
+                       <option>Morocco</option>
+                       <option>Singapore</option>
+                       <option>Malaysia</option>
+                       <option>Thailand</option>
+                       <option>Indonesia</option>
+                       <option>Russia</option>
+                       <option>Switzerland</option>
+                       <option>Norway</option>
+                       <option>Sweden</option>
+                       <option>Denmark</option>
+                       <option>Finland</option>
+                       <option>Netherlands</option>
+                   </select>
+               </div>
+           </div>
+           
+           <button style="margin-top: 20px; padding: 15px; width: 100%; background: #2c3e50; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 1rem;">Check Requirements</button>
+
+           <!-- Sample Requirements Output -->
+           <div class="visa-info-card">
+               <h4>Sample Requirements (Kenya to UAE):</h4>
+               <ul>
+                   <li>Valid passport (minimum 6 months validity)</li>
+                   <li>Recent passport-sized photograph (white background)</li>
+                   <li>Confirmed flight itinerary and hotel booking</li>
+                   <li>Bank statement for the last 3 months (minimum balance required)</li>
+                   <li>Completed visa application form</li>
+               </ul>
+               <p style="margin-top: 15px; font-size: 0.9rem; color: #777;"><em>*Requirements vary by destination. Contact us for an exact checklist for your specific trip.</em></p>
+           </div>
+       </div> 
+
+       <!-- CONTACT SECTION -->
+       <div class="section-header reveal" id="contact" style="margin-top: 100px;">
+           <h2>Contact Us</h2>
+           <p>Ready to plan your next adventure? Get in touch with our team.</p>
+       </div>
+
+       <div class="contact-grid reveal">
+           <!-- Contact Form -->
+           <div class="contact-form">
+               <h3>Send us a Message</h3>
+               <form onsubmit="event.preventDefault(); alert('Message sent successfully! We will get back to you shortly.');">
+                   <div class="input-group">
+                       <input type="text" placeholder="Full Name" required>
+                       <input type="email" placeholder="Email Address" required>
+                   </div>
+                   <input type="text" placeholder="Subject" required>
+                   <textarea placeholder="Your Message..." rows="5" required></textarea>
+                   <button type="submit">Send Message</button>
+               </form>
+           </div>
+
+           <!-- Contact Info -->
+           <div class="contact-info">
+               <h3>Let's Talk</h3>
+               <p>Have a question about a tour, visa, or corporate travel? We're here to help.</p>
+               
+               <div class="info-item">
+                   <div class="info-icon">📍</div>
+                   <div>
+                       <h4>Our Office</h4>
+                       <p>Nairobi, Kenya</p>
+                   </div>
+               </div>
+
+               <div class="info-item">
+                   <div class="info-icon">📞</div>
+                   <div>
+                       <h4>Call/WhatsApp</h4>
+                       <!-- FIXED: Formatted phone numbers nicely -->
+                       <p>+254 752 377 682<br>+254 792 827 599</p>
+                   </div>
+               </div>
+
+               <div class="info-item">
+                   <div class="info-icon">✉️</div>
+                   <div>
+                       <h4>Email Us</h4>
+                       <p>hello@safiripesa.com</p>
+                   </div>
+               </div>
+
+               <div style="margin-top: 30px;">
+                   <a href="https://wa.me/254794209525?text=Hi%20SafiriPesa,%20I%20have%20an%20inquiry." target="_blank" style="display: inline-block; background: #25D366; color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: 0.3s; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);">
+                       💬 Chat on WhatsApp
+                   </a>
+               </div>
+           </div>
+       </div>
+
+    </div> <!-- CLOSED THE MAIN CONTAINER -->
+
+    <!-- MODALS -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
-            <h2>Login</h2>
-            <input type="email" id="loginEmail" placeholder="Email" required>
-            <input type="password" id="loginPassword" placeholder="Password" required>
-            <div id="loginError" class="error-msg"></div>
-            <button onclick="login()">Login</button>
-            <p class="switch-auth" onclick="closeModals(); openSignupModal()">Don't have an account? Sign up</p>
+            <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Welcome Back</h2>
+            <p>Log in to manage your SafiriPesa bookings.</p>
+            
+            <input type="email" placeholder="Email Address" autocomplete="off">
+            <input type="password" placeholder="Password" autocomplete="new-password">
+            
+            <!-- REMEMBER ME CHECKBOX -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem; color: #555;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 400;">
+                    <input type="checkbox" id="rememberMe" style="width: 16px; height: 16px; margin: 0; cursor: pointer; accent-color: #27ae60;"> 
+                    Remember me
+                </label>
+                <a href="#" style="color: #27ae60; text-decoration: none; font-weight: 600;">Forgot Password?</a>
+            </div>
+
+            <button onclick="handleLogin()">Login</button>
         </div>
     </div>
-    
-    <!-- Signup Modal -->
+
     <div class="modal" id="signupModal">
         <div class="modal-content">
-            <h2>Sign Up</h2>
-            <input type="text" id="signupName" placeholder="Full Name" required>
-            <input type="email" id="signupEmail" placeholder="Email" required>
-            <input type="tel" id="signupPhone" placeholder="Phone (e.g., 254708374149)" required>
-            <input type="password" id="signupPassword" placeholder="Password" required>
-            <div id="signupError" class="error-msg"></div>
-            <button onclick="signup()">Sign Up</button>
-            <p class="switch-auth" onclick="closeModals(); openLoginModal()">Already have an account? Login</p>
+            <span class="close-btn" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Create an Account</h2>
+            <p>Join SafiriPesa to start booking your next adventure.</p>
+            <input type="text" placeholder="Full Name" autocomplete="off">
+            <input type="email" placeholder="Email Address" autocomplete="off">
+            <input type="password" placeholder="Create Password" autocomplete="new-password">
+            <button onclick="handleSignup()">Sign Up</button>
         </div>
     </div>
-    
-    <!-- Booking Modal -->
-    <div class="modal" id="bookingModal">
-        <div class="modal-content">
-            <h2 id="bookingTitle">Book Your Safari</h2>
-            <input type="hidden" id="bookingPackageId">
-            <input type="hidden" id="bookingPrice">
-            <input type="number" id="travelers" placeholder="Number of Travelers" value="1" min="1">
-            <input type="date" id="travelDate">
-            <div id="totalAmount" style="font-weight:bold; margin:1rem 0;"></div>
-            <button onclick="processBooking()">Confirm Booking</button>
-            <button onclick="closeModals()" style="background:#e74c3c;">Cancel</button>
-        </div>
-    </div>
-    
-    <footer class="footer">
-        <p>© 2026 SafiriPesa - Travel with M-Pesa</p>
-        <p>Kenya's Premier Travel Platform | Visa Assistance for 40+ Countries</p>
-    </footer>
-    
+
+    <!-- SCRIPTS -->
     <script>
-        const API_URL = 'https://travel-app-production-3893.up.railway.app';
-        let currentUser = null;
-        let authToken = null;
-        
-        // ==================== AUTH ====================
-        function checkAuth() {
-            const token = localStorage.getItem('token');
-            const user = localStorage.getItem('user');
-            if (token && user) {
-                authToken = token;
-                currentUser = JSON.parse(user);
-                showLoggedInUI();
-                loadDashboard();
-            }
-        }
-        
-        function showLoggedInUI() {
-            document.getElementById('authButtons').style.display = 'none';
-            document.getElementById('userInfo').style.display = 'flex';
-            document.getElementById('userName').textContent = currentUser.fullName;
-        }
-        
-        function showLoggedOutUI() {
-            document.getElementById('authButtons').style.display = 'flex';
-            document.getElementById('userInfo').style.display = 'none';
-            document.getElementById('dashboardContainer').innerHTML = '<div style="text-align: center;">Login to see your dashboard</div>';
-        }
-        
-        function openLoginModal() { document.getElementById('loginModal').classList.add('active'); }
-        function openSignupModal() { document.getElementById('signupModal').classList.add('active'); }
-        function closeModals() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('active')); }
-        
-        async function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            try {
-                const res = await fetch(`${API_URL}/api/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    authToken = data.token;
-                    currentUser = data.user;
-                    showLoggedInUI();
-                    closeModals();
-                    loadDashboard();
-                } else {
-                    document.getElementById('loginError').innerHTML = data.error;
+        // 1. Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
-            } catch (error) {
-                document.getElementById('loginError').innerHTML = 'Network error';
-            }
+            });
+        }, { threshold: 0.1 });
+
+        const hiddenElements = document.querySelectorAll('.reveal');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // 2. Modal Functions
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('show');
         }
-        
-        async function signup() {
-            const fullName = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const phone = document.getElementById('signupPhone').value;
-            const password = document.getElementById('signupPassword').value;
-            try {
-                const res = await fetch(`${API_URL}/api/auth/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ fullName, email, phone, password })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    authToken = data.token;
-                    currentUser = data.user;
-                    showLoggedInUI();
-                    closeModals();
-                    loadDashboard();
-                } else {
-                    document.getElementById('signupError').innerHTML = data.error;
-                }
-            } catch (error) {
-                document.getElementById('signupError').innerHTML = 'Network error';
-            }
+
+        function openSignupModal() {
+            document.getElementById('signupModal').classList.add('show');
         }
-        
-        function logout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            authToken = null;
-            currentUser = null;
-            showLoggedOutUI();
-            loadPackages();
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
         }
-        
-        // ==================== PACKAGES ====================
-        async function loadPackages() {
-            try {
-                const res = await fetch(`${API_URL}/api/packages`);
-                const data = await res.json();
-                if (data.success) {
-                    const container = document.getElementById('packages-container');
-                    container.innerHTML = data.data.map(pkg => `
-                        <div class="package-card">
-                            <div class="package-image" style="background-image: url('${pkg.image}');"></div>
-                            <div class="package-content">
-                                <h3 class="package-title">${pkg.title}</h3>
-                                <p style="font-size:0.9rem;">${pkg.description}</p>
-                                <div class="package-price">KES ${pkg.price.toLocaleString()}<small>/person</small></div>
-                                <button class="btn-book" onclick="openBookingModal('${pkg._id}', '${pkg.title}', ${pkg.price})">Book Now</button>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-            } catch (error) {
-                console.error('Error loading packages:', error);
-            }
+
+        // 3. Login & Signup Actions
+        function handleSignup() {
+            closeModal('signupModal');
+            document.querySelector('.auth-buttons').innerHTML = `
+                <button class="btn-signup" onclick="window.location.href='dashboard.html'">My Dashboard</button>
+            `;
+            setTimeout(() => {
+                alert("Account created successfully! Welcome to SafiriPesa.");
+            }, 300);
         }
-        
-        function openBookingModal(packageId, title, price) {
-            if (!authToken) { alert('Please login to book'); openLoginModal(); return; }
-            document.getElementById('bookingPackageId').value = packageId;
-            document.getElementById('bookingTitle').innerHTML = `Book ${title}`;
-            document.getElementById('bookingPrice').value = price;
-            document.getElementById('travelDate').valueAsDate = new Date();
-            updateTotal();
-            document.getElementById('bookingModal').classList.add('active');
+
+        function handleLogin() {
+            closeModal('loginModal');
+            document.querySelector('.auth-buttons').innerHTML = `
+                <button class="btn-signup" onclick="window.location.href='dashboard.html'">My Dashboard</button>
+            `;
+            setTimeout(() => {
+                alert("Logged in successfully! Welcome back to SafiriPesa.");
+            }, 300);
         }
-        
-        function updateTotal() {
-            const price = parseFloat(document.getElementById('bookingPrice').value);
-            const travelers = parseInt(document.getElementById('travelers').value);
-            document.getElementById('totalAmount').innerHTML = `Total: KES ${(price * travelers).toLocaleString()}`;
-        }
-        
-        document.getElementById('travelers').addEventListener('input', updateTotal);
-        
-        // ==================== M-PESA PAYMENT ====================
-        async function processBooking() {
-            const packageId = document.getElementById('bookingPackageId').value;
-            const packageName = document.getElementById('bookingTitle').innerHTML.replace('Book ', '');
-            const price = parseFloat(document.getElementById('bookingPrice').value);
-            const travelers = parseInt(document.getElementById('travelers').value);
-            const travelDate = document.getElementById('travelDate').value;
-            const totalAmount = price * travelers;
-            
-            try {
-                const bookingRes = await fetch(`${API_URL}/api/bookings`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authToken}`
-                    },
-                    body: JSON.stringify({ packageId, packageName, price, travelers, travelDate })
-                });
-                const bookingData = await bookingRes.json();
-                
-                if (!bookingData.success) {
-                    alert('Error creating booking: ' + bookingData.error);
-                    return;
-                }
-                
-                const bookingId = bookingData.booking._id;
-                const phone = prompt('Enter your M-Pesa phone number (e.g., 254708374149):', '254708374149');
-                if (!phone) { alert('Payment cancelled'); return; }
-                
-                const paymentRes = await fetch(`${API_URL}/api/mpesa/pay`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authToken}`
-                    },
-                    body: JSON.stringify({ bookingId, phone, amount: totalAmount })
-                });
-                
-                const paymentData = await paymentRes.json();
-                
-                if (paymentData.success) {
-                    alert(`✅ STK Push sent to ${phone}!\nCheck your phone to complete payment.\n\nBooking ID: ${bookingId}`);
-                    closeModals();
-                    loadDashboard();
-                } else {
-                    alert('❌ Payment failed: ' + paymentData.error);
-                }
-            } catch (error) {
-                console.error('Booking error:', error);
-                alert('Network error. Please try again.');
-            }
-        }
-        
-        // ==================== DASHBOARD ====================
-        async function loadDashboard() {
-            if (!authToken) return;
-            try {
-                const res = await fetch(`${API_URL}/api/dashboard`, {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
-                const data = await res.json();
-                if (data.success) {
-                    document.getElementById('dashboardContainer').innerHTML = `
-                        <div class="dashboard-stats">
-                            <div class="stat-card"><div class="stat-number">${data.stats.totalBookings}</div><div>Bookings</div></div>
-                            <div class="stat-card"><div class="stat-number">${data.stats.totalVisas}</div><div>Visa Apps</div></div>
-                            <div class="stat-card"><div class="stat-number">KES ${data.stats.totalSpent.toLocaleString()}</div><div>Total Spent</div></div>
-                        </div>
-                        <h3>📋 Recent Bookings</h3>
-                        ${data.recentBookings.length ? data.recentBookings.map(b => `
-                            <div style="border:1px solid #ddd; padding:0.8rem; margin-bottom:0.5rem; border-radius:5px;">
-                                <strong>${b.packageName}</strong><br>
-                                📅 ${new Date(b.travelDate).toLocaleDateString()} | 👥 ${b.travelers} travelers | 💰 KES ${b.totalAmount.toLocaleString()}<br>
-                                <span class="status-${b.paymentStatus}">${b.paymentStatus === 'paid' ? '✅ Paid' : b.paymentStatus === 'pending' ? '⏳ Pending' : '❌ Failed'}</span>
-                                ${b.mpesaReceipt ? `<br>🧾 Receipt: ${b.mpesaReceipt}` : ''}
-                            </div>
-                        `).join('') : '<p>No bookings yet</p>'}
-                        <h3 style="margin-top:1rem;">🛂 Recent Visa Applications</h3>
-                        ${data.recentVisas.length ? data.recentVisas.map(v => `
-                            <div style="border:1px solid #ddd; padding:0.8rem; margin-bottom:0.5rem; border-radius:5px;">
-                                <strong>${v.destinationCountry}</strong><br>
-                                📅 Applied: ${new Date(v.createdAt).toLocaleDateString()}<br>
-                                <span style="background: ${v.visaStatus === 'approved' ? '#27ae60' : v.visaStatus === 'processing' ? '#f39c12' : '#3498db'}; color:white; padding:0.2rem 0.5rem; border-radius:20px; font-size:0.8rem;">
-                                    ${v.visaStatus.toUpperCase()}
-                                </span>
-                                ${v.applicationReference ? `<br>📌 Ref: ${v.applicationReference}` : ''}
-                            </div>
-                        `).join('') : '<p>No visa applications yet</p>'}
-                    `;
-                }
-            } catch (error) { console.error(error); }
-        }
-        
-        // ==================== VISA FUNCTIONS ====================
-        async function checkVisaRequirements() {
-            const dest = document.getElementById('destination').value;
-            try {
-                const res = await fetch(`${API_URL}/api/visa/requirements/${dest}`);
-                const data = await res.json();
-                if (data.success) {
-                    document.getElementById('visaRequirements').innerHTML = `
-                        <div style="background:#f8f9fa; padding:1rem; border-radius:5px;">
-                            <h3>📋 Requirements for ${dest}</h3>
-                            <p><strong>Processing Time:</strong> ${data.requirements.processingTime}</p>
-                            <p><strong>Visa Fee:</strong> KES ${data.requirements.fee}</p>
-                            <p><strong>Required Documents:</strong></p>
-                            <ul>${data.requirements.documents.map(d => `<li>📄 ${d}</li>`).join('')}</ul>
-                        </div>
-                    `;
-                }
-            } catch (error) { console.error(error); }
-        }
-        
-        async function submitVisaApplication(event) {
-            event.preventDefault();
-            if (!authToken) { alert('Please login first'); openLoginModal(); return; }
-            
-            const resultDiv = document.getElementById('visaApplicationResult');
-            resultDiv.innerHTML = '⏳ Submitting...';
-            
-            const visaData = {
-                fullName: document.getElementById('visaFullName').value,
-                passportNumber: document.getElementById('visaPassport').value,
-                nationality: document.getElementById('nationality').value,
-                destinationCountry: document.getElementById('destination').value,
-                intendedTravelDate: document.getElementById('visaTravelDate').value,
-                durationOfStay: parseInt(document.getElementById('visaDuration').value),
-                travelPurpose: document.getElementById('visaPurpose').value,
-                visaType: document.getElementById('visaType').value,
-                email: currentUser?.email || 'user@email.com',
-                phone: currentUser?.phone || '254708374149',
-                dateOfBirth: new Date().toISOString().split('T')[0],
-                passportExpiryDate: new Date().toISOString().split('T')[0]
-            };
-            
-            try {
-                const res = await fetch(`${API_URL}/api/visa`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authToken}`
-                    },
-                    body: JSON.stringify(visaData)
-                });
-                const data = await res.json();
-                if (data.success) {
-                    resultDiv.innerHTML = `<div style="background:#d4edda; color:#155724; padding:1rem; border-radius:5px;">
-                        ✅ Visa application submitted!<br>
-                        Reference: ${data.applicationReference}<br>
-                        Status: ${data.visa.visaStatus}
-                    </div>`;
-                    document.getElementById('visaApplicationForm').reset();
-                    loadDashboard();
-                } else {
-                    resultDiv.innerHTML = `<div style="background:#f8d7da; color:#721c24; padding:1rem;">❌ Error: ${data.error}</div>`;
-                }
-            } catch (error) {
-                resultDiv.innerHTML = `<div style="background:#f8d7da; color:#721c24; padding:1rem;">❌ Network error: ${error.message}</div>`;
-            }
-        }
-        
-        // Initialize
-        checkAuth();
-        loadPackages();
     </script>
+
 </body>
 </html>

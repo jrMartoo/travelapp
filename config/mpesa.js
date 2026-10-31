@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 // M-Pesa Configuration (Safaricom Daraja API)
-const consumerKey = 'YOUR_CONSUMER_KEY'; // Replace with your key
-const consumerSecret = 'YOUR_CONSUMER_SECRET'; // Replace with your secret
+const consumerKey = '20Xyp3T8p7VQXWjJj8WRvJdM2HYMU0PIX73Zn5GpNhYwnhiT'; T
+const consumerSecret = 'DQfRcj0E5uO27f9DECtQYSVNFkQN1wnW4oKTgTrtAvdPJhVJ4QPN3pFGEwBaxUvl'; // Replace with your secret
 const businessShortCode = '174379'; // Test paybill
 const passkey = 'YOUR_PASSKEY'; // Replace with your passkey
 
